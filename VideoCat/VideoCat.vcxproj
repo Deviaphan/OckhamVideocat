@@ -1,0 +1,841 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F611CE99-D490-4082-B956-219D59838733}</ProjectGuid>
+    <RootNamespace>VideoCat</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <SpectreMitigation>false</SpectreMitigation>
+    <EnableASAN>false</EnableASAN>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <SpectreMitigation>
+    </SpectreMitigation>
+    <EnableASAN>false</EnableASAN>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="VideoCat.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="VideoCat.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="VideoCat.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="VideoCat.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(SolutionDir);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>.;$(SolutionDir);$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <ExcludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x86);</ExcludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)_d</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(SolutionDir);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>.;$(SolutionDir);$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(SolutionDir);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(WindowsSdk_71A_LibraryPath_x86)</LibraryPath>
+    <IncludePath>.;$(SolutionDir);$(BoostDir);$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <ExcludePath>$(VC_IncludePath);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x86);</ExcludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(SolutionDir);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(WindowsSdk_71A_LibraryPath_x64)</LibraryPath>
+    <IncludePath>.;$(SolutionDir);$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ConformanceMode>true</ConformanceMode>
+      <EnforceTypeConversionRules>
+      </EnforceTypeConversionRules>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lib/libcurl-d_imp.lib;crypt32.lib;ws2_32.lib;wldap32.lib;version.lib;Rpcrt4.lib</AdditionalDependencies>
+      <FullProgramDatabaseFile>false</FullProgramDatabaseFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0419</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WIN64;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lib64/libcurld.lib;version.lib;Rpcrt4.lib</AdditionalDependencies>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <ImageHasSafeExceptionHandlers>
+      </ImageHasSafeExceptionHandlers>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <GenerateMapFile>
+      </GenerateMapFile>
+      <DelayLoadDLLs>libcurld.dll</DelayLoadDLLs>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0419</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>powershell.exe -file $(SolutionDir)make_rev.ps1</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <RuntimeTypeInfo>
+      </RuntimeTypeInfo>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <StructMemberAlignment>
+      </StructMemberAlignment>
+      <EnforceTypeConversionRules>
+      </EnforceTypeConversionRules>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>lib/libcurl.lib;crypt32.lib;ws2_32.lib;wldap32.lib;Version.lib;Rpcrt4.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <SetChecksum>false</SetChecksum>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0419</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(SolutionDir)make_rev.ps1</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WIN64;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <RuntimeTypeInfo>
+      </RuntimeTypeInfo>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ConformanceMode>true</ConformanceMode>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>lib64/libcurl.lib;Version.lib;Rpcrt4.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <SetChecksum>false</SetChecksum>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <DelayLoadDLLs>libcurl.dll</DelayLoadDLLs>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0419</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>powershell.exe $(SolutionDir)\make_rev.ps1</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="About.h" />
+    <ClInclude Include="AddCollectionDlg.h" />
+    <ClInclude Include="AddPerson.h" />
+    <ClInclude Include="AdvancedButton.h" />
+    <ClInclude Include="AdvancedMenu.h" />
+    <ClInclude Include="AdvancedToolTipCtrl.h" />
+    <ClInclude Include="AviableFiles.h" />
+    <ClInclude Include="BehaviorDlg.h" />
+    <ClInclude Include="BitmapTools.h" />
+    <ClInclude Include="CameraViewDlg.h" />
+    <ClInclude Include="CardAutoFill.h" />
+    <ClInclude Include="CardDescription.h" />
+    <ClInclude Include="CardFilmInfo.h" />
+    <ClInclude Include="CardPageBase.h" />
+    <ClInclude Include="CardPoster.h" />
+    <ClInclude Include="CardTabCtrl.h" />
+    <ClInclude Include="CardTechInfo.h" />
+    <ClInclude Include="CatHead.h" />
+    <ClInclude Include="CheckBoxList.h" />
+    <ClInclude Include="CollapseGroupBox.h" />
+    <ClInclude Include="CollectionDB.h" />
+    <ClInclude Include="CollectionMaintenanceDlg.h" />
+    <ClInclude Include="ColorTheme.h" />
+    <ClInclude Include="CommandManager.h" />
+    <ClInclude Include="Commands\CommandExecute.h" />
+    <ClInclude Include="Commands\CommandID.h" />
+    <ClInclude Include="Commands\CommandInfo.h" />
+    <ClInclude Include="Commands\RegisterAllCommands.h" />
+    <ClInclude Include="CommentBox.h" />
+    <ClInclude Include="CommentButton.h" />
+    <ClInclude Include="ContextMenu.h" />
+    <ClInclude Include="CopyFolderDataDlg.h" />
+    <ClInclude Include="CopyWebPageDlg.h" />
+    <ClInclude Include="CreateBackupDlg.h" />
+    <ClInclude Include="CreateCollectionDlg.h" />
+    <ClInclude Include="CreateRootDlg.h" />
+    <ClInclude Include="CStringStore.h" />
+    <ClInclude Include="Cyrillic.h" />
+    <ClInclude Include="DeleteRootDlg.h" />
+    <ClInclude Include="DisplayItem.h" />
+    <ClInclude Include="DuplicateDlg.h" />
+    <ClInclude Include="EditCard.h" />
+    <ClInclude Include="EditRealRootDlg.h" />
+    <ClInclude Include="EditToolbarDlg.h" />
+    <ClInclude Include="Entry.h" />
+    <ClInclude Include="EntryHandle.h" />
+    <ClInclude Include="EraseDlg.h" />
+    <ClInclude Include="ErrorDlg.h" />
+    <ClInclude Include="ExcludedPathDlg.h" />
+    <ClInclude Include="explorer.h" />
+    <ClInclude Include="Extensions.h" />
+    <ClInclude Include="FemStore\access.h" />
+    <ClInclude Include="FemStore\array_wrap.h" />
+    <ClInclude Include="FemStore\c_array.h" />
+    <ClInclude Include="FemStore\femstore.h" />
+    <ClInclude Include="FemStore\femstore_fwd.h" />
+    <ClInclude Include="FemStore\reader.h" />
+    <ClInclude Include="FemStore\std_array.h" />
+    <ClInclude Include="FemStore\std_deque.h" />
+    <ClInclude Include="FemStore\std_forward_list.h" />
+    <ClInclude Include="FemStore\std_list.h" />
+    <ClInclude Include="FemStore\std_map.h" />
+    <ClInclude Include="FemStore\std_pair.h" />
+    <ClInclude Include="FemStore\std_set.h" />
+    <ClInclude Include="FemStore\std_string.h" />
+    <ClInclude Include="FemStore\std_unordered_map.h" />
+    <ClInclude Include="FemStore\std_vector.h" />
+    <ClInclude Include="FemStore\StoreException.h" />
+    <ClInclude Include="FemStore\types.h" />
+    <ClInclude Include="FemStore\version.h" />
+    <ClInclude Include="FileFormatSettings.h" />
+    <ClInclude Include="FileStore\access.h" />
+    <ClInclude Include="FileStore\array_wrap.h" />
+    <ClInclude Include="FileStore\c_array.h" />
+    <ClInclude Include="FileStore\femstore.h" />
+    <ClInclude Include="FileStore\femstore_fwd.h" />
+    <ClInclude Include="FileStore\reader.h" />
+    <ClInclude Include="FileStore\std_array.h" />
+    <ClInclude Include="FileStore\std_deque.h" />
+    <ClInclude Include="FileStore\std_forward_list.h" />
+    <ClInclude Include="FileStore\std_list.h" />
+    <ClInclude Include="FileStore\std_map.h" />
+    <ClInclude Include="FileStore\std_pair.h" />
+    <ClInclude Include="FileStore\std_set.h" />
+    <ClInclude Include="FileStore\std_string.h" />
+    <ClInclude Include="FileStore\std_unordered_map.h" />
+    <ClInclude Include="FileStore\std_vector.h" />
+    <ClInclude Include="FileStore\StoreException.h" />
+    <ClInclude Include="FileStore\types.h" />
+    <ClInclude Include="FileStore\version.h" />
+    <ClInclude Include="FileStore\writer.h" />
+    <ClInclude Include="FirstRunDlg.h" />
+    <ClInclude Include="FlatSplitterWnd.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="GenreFilter.h" />
+    <ClInclude Include="genres.h" />
+    <ClInclude Include="GlobalSettings.h" />
+    <ClInclude Include="GuidTool.h" />
+    <ClInclude Include="HashItem.h" />
+    <ClInclude Include="hash\MurmurHash3.h" />
+    <ClInclude Include="IconManager.h" />
+    <ClInclude Include="ImageData.h" />
+    <ClInclude Include="IsValidFileName.h" />
+    <ClInclude Include="json\allocator.h" />
+    <ClInclude Include="json\assertions.h" />
+    <ClInclude Include="json\config.h" />
+    <ClInclude Include="json\forwards.h" />
+    <ClInclude Include="json\json.h" />
+    <ClInclude Include="json\json_features.h" />
+    <ClInclude Include="json\json_tool.h" />
+    <ClInclude Include="json\reader.h" />
+    <ClInclude Include="json\value.h" />
+    <ClInclude Include="json\version.h" />
+    <ClInclude Include="json\writer.h" />
+    <ClInclude Include="Kinopoisk\FilmDataBase.h" />
+    <ClInclude Include="Kinopoisk\Kinopoisk.h" />
+    <ClInclude Include="Kinopoisk\KinopoiskInfo.h" />
+    <ClInclude Include="Kinopoisk\LoadFilmInfo.h" />
+    <ClInclude Include="Kinopoisk\LoadKinopoiskPage.h" />
+    <ClInclude Include="Kinopoisk\LoadSerialEpisodes.h" />
+    <ClInclude Include="License\Blowfish.h" />
+    <ClInclude Include="License\KeySerialize.h" />
+    <ClInclude Include="License\LicenseBox.h" />
+    <ClInclude Include="ListBoxCH.h" />
+    <ClInclude Include="LoadBackupDlg.h" />
+    <ClInclude Include="LoadJpg.h" />
+    <ClInclude Include="LoadPng.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="ManageCollectionsDlg.h" />
+    <ClInclude Include="ManageRootDirDlg.h" />
+    <ClInclude Include="MediaInfo.h" />
+    <ClInclude Include="MediaInfoDLL.h" />
+    <ClInclude Include="NewFileExtension.h" />
+    <ClInclude Include="OnscreenKeyboardDlg.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PersonInfo.h" />
+    <ClInclude Include="PluginManager.h" />
+    <ClInclude Include="plugin\AndroidExport.h" />
+    <ClInclude Include="plugin\AndroidExportDlg.h" />
+    <ClInclude Include="plugin\ArchividImport.h" />
+    <ClInclude Include="poster.h" />
+    <ClInclude Include="PosterDownloader.h" />
+    <ClInclude Include="PrivateLock.h" />
+    <ClInclude Include="ProgramSettingsDlg.h" />
+    <ClInclude Include="ProgressDlg.h" />
+    <ClInclude Include="ProxySettings.h" />
+    <ClInclude Include="RenameDialog.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResString.h" />
+    <ClInclude Include="rev.h" />
+    <ClInclude Include="RootRenameDlg.h" />
+    <ClInclude Include="ScrollHelper.h" />
+    <ClInclude Include="SelectAutofillPlugin.h" />
+    <ClInclude Include="SerialFillDlg.h" />
+    <ClInclude Include="SetWin10Theme.h" />
+    <ClInclude Include="ShortcutDlg.h" />
+    <ClInclude Include="ShowPie.h" />
+    <ClInclude Include="SmartHdc.h" />
+    <ClInclude Include="SortPredicates.h" />
+    <ClInclude Include="SuperTooltip\MultiMonitor.h" />
+    <ClInclude Include="SuperTooltip\PPDrawManager.h" />
+    <ClInclude Include="SuperTooltip\PPHtmlDrawer.h" />
+    <ClInclude Include="SuperTooltip\PPTooltip.h" />
+    <ClInclude Include="SynchronizeDlg.h" />
+    <ClInclude Include="SynchronizeFiles.h" />
+    <ClInclude Include="TagManager.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestIP.h" />
+    <ClInclude Include="TestPassword.h" />
+    <ClInclude Include="ThemeBgPage.h" />
+    <ClInclude Include="ThemeEditor.h" />
+    <ClInclude Include="ThemeListPage.h" />
+    <ClInclude Include="ThemeMenuPage.h" />
+    <ClInclude Include="ThemeName.h" />
+    <ClInclude Include="ThemeShadowPage.h" />
+    <ClInclude Include="ThemeTilePage.h" />
+    <ClInclude Include="ThemeTreePage.h" />
+    <ClInclude Include="ThumbnailSettingsDlg.h" />
+    <ClInclude Include="TipOfDay.h" />
+    <ClInclude Include="Translite.h" />
+    <ClInclude Include="Traverse\AllGenresTags.h" />
+    <ClInclude Include="Traverse\CountViewedFilms.h" />
+    <ClInclude Include="Traverse\FindByGenres.h" />
+    <ClInclude Include="Traverse\FindByName.h" />
+    <ClInclude Include="Traverse\FindByTags.h" />
+    <ClInclude Include="Traverse\FindByYear.h" />
+    <ClInclude Include="ThumbGenerator.h" />
+    <ClInclude Include="Traverse\TraverseCollection.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="VideoCat.h" />
+    <ClInclude Include="VideoCatDoc.h" />
+    <ClInclude Include="VideoCatView.h" />
+    <ClInclude Include="VideoInput\videoInput.h" />
+    <ClInclude Include="VideoTreeView.h" />
+    <ClInclude Include="ViewStyle.h" />
+    <ClInclude Include="ViewStyleDlg.h" />
+    <ClInclude Include="VividTree.h" />
+    <ClInclude Include="WaitDlg.h" />
+    <ClInclude Include="WinVerTest.h" />
+    <ClInclude Include="XPGroupBox.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="About.cpp" />
+    <ClCompile Include="AddCollectionDlg.cpp" />
+    <ClCompile Include="AddPerson.cpp" />
+    <ClCompile Include="AdvancedButton.cpp" />
+    <ClCompile Include="AdvancedMenu.cpp" />
+    <ClCompile Include="AdvancedToolTipCtrl.cpp" />
+    <ClCompile Include="BehaviorDlg.cpp" />
+    <ClCompile Include="BitmapTools.cpp" />
+    <ClCompile Include="CameraViewDlg.cpp" />
+    <ClCompile Include="CardAutoFill.cpp" />
+    <ClCompile Include="CardDescription.cpp" />
+    <ClCompile Include="CardFilmInfo.cpp" />
+    <ClCompile Include="CardPoster.cpp" />
+    <ClCompile Include="CardTabCtrl.cpp" />
+    <ClCompile Include="CardTechInfo.cpp" />
+    <ClCompile Include="CatHead.cpp" />
+    <ClCompile Include="CheckBoxList.cpp" />
+    <ClCompile Include="CollapseGroupBox.cpp" />
+    <ClCompile Include="CollectionDB.cpp" />
+    <ClCompile Include="CollectionMaintenanceDlg.cpp" />
+    <ClCompile Include="CommandManager.cpp" />
+    <ClCompile Include="Commands\AboutVideocat.cpp" />
+    <ClCompile Include="Commands\AddVirtualFilm.cpp" />
+    <ClCompile Include="Commands\AddVirtualFolder.cpp" />
+    <ClCompile Include="Commands\AddVirtualPerson.cpp" />
+    <ClCompile Include="Commands\AutoFillSeries.cpp" />
+    <ClCompile Include="Commands\AutoSetFilmInfo.cpp" />
+    <ClCompile Include="Commands\ChangeSortPredicate.cpp" />
+    <ClCompile Include="Commands\CommandExecute.cpp" />
+    <ClCompile Include="Commands\CopyInfoFromFolder.cpp" />
+    <ClCompile Include="Commands\CreatePosterFromScreenshot.cpp" />
+    <ClCompile Include="Commands\DeleteVirtualFilm.cpp" />
+    <ClCompile Include="Commands\DeleteVirtualFolder.cpp" />
+    <ClCompile Include="Commands\DeleteVirtualPerson.cpp" />
+    <ClCompile Include="Commands\EditEntry.cpp" />
+    <ClCompile Include="Commands\EditToolbar.cpp" />
+    <ClCompile Include="Commands\EraseFilmsInfo.cpp" />
+    <ClCompile Include="Commands\ExportToAndroid.cpp" />
+    <ClCompile Include="Commands\ExportToCSV.cpp" />
+    <ClCompile Include="Commands\OskFindByName.cpp" />
+    <ClCompile Include="Commands\GenerateThumbnails.cpp" />
+    <ClCompile Include="Commands\ImportFromArchivid.cpp" />
+    <ClCompile Include="Commands\ManageCollections.cpp" />
+    <ClCompile Include="Commands\ManageRoots.cpp" />
+    <ClCompile Include="Commands\OpenEntry.cpp" />
+    <ClCompile Include="Commands\OpenForum.cpp" />
+    <ClCompile Include="Commands\OpenURL.cpp" />
+    <ClCompile Include="Commands\OpenYoutube.cpp" />
+    <ClCompile Include="Commands\PrivateLockFolder.cpp" />
+    <ClCompile Include="Commands\PrivateUnlockFolder.cpp" />
+    <ClCompile Include="Commands\ProgramSettings.cpp" />
+    <ClCompile Include="Commands\RegisterAllCommands.cpp" />
+    <ClCompile Include="Commands\RenameEntry.cpp" />
+    <ClCompile Include="Commands\ShowLastViewed.cpp" />
+    <ClCompile Include="Commands\ShowNewFilms.cpp" />
+    <ClCompile Include="Commands\ShowRandomFilms.cpp" />
+    <ClCompile Include="Commands\ShowSimilarFilms.cpp" />
+    <ClCompile Include="Commands\Statistic.cpp" />
+    <ClCompile Include="Commands\SynchronizeFolder.cpp" />
+    <ClCompile Include="Commands\UpdateVirtualPerson.cpp" />
+    <ClCompile Include="CommentBox.cpp" />
+    <ClCompile Include="CommentButton.cpp" />
+    <ClCompile Include="ContextMenu.cpp" />
+    <ClCompile Include="CopyFolderDataDlg.cpp" />
+    <ClCompile Include="CopyWebPageDlg.cpp" />
+    <ClCompile Include="CreateBackupDlg.cpp" />
+    <ClCompile Include="CreateCollectionDlg.cpp" />
+    <ClCompile Include="CreateRootDlg.cpp" />
+    <ClCompile Include="Cyrillic.cpp" />
+    <ClCompile Include="DeleteRootDlg.cpp" />
+    <ClCompile Include="DisplayItem.cpp" />
+    <ClCompile Include="DuplicateDlg.cpp" />
+    <ClCompile Include="EditCard.cpp" />
+    <ClCompile Include="EditRealRootDlg.cpp" />
+    <ClCompile Include="EditToolbarDlg.cpp" />
+    <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="EntryHandle.cpp" />
+    <ClCompile Include="EraseDlg.cpp" />
+    <ClCompile Include="ErrorDlg.cpp" />
+    <ClCompile Include="ExcludedPathDlg.cpp" />
+    <ClCompile Include="explorer.cpp" />
+    <ClCompile Include="FileFormatSettings.cpp" />
+    <ClCompile Include="FirstRunDlg.cpp" />
+    <ClCompile Include="FlatSplitterWnd.cpp" />
+    <ClCompile Include="GenreFilter.cpp" />
+    <ClCompile Include="genres.cpp" />
+    <ClCompile Include="GlobalSettings.cpp" />
+    <ClCompile Include="GuidTool.cpp" />
+    <ClCompile Include="HashItem.cpp" />
+    <ClCompile Include="hash\MurmurHash3.cpp" />
+    <ClCompile Include="IconManager.cpp" />
+    <ClCompile Include="ImageData.cpp" />
+    <ClCompile Include="IsValidFileName.cpp" />
+    <ClCompile Include="json\json_reader.cpp" />
+    <ClCompile Include="json\json_value.cpp" />
+    <ClCompile Include="json\json_writer.cpp" />
+    <ClCompile Include="Kinopoisk\FilmDataBase.cpp" />
+    <ClCompile Include="Kinopoisk\Kinopoisk.cpp" />
+    <ClCompile Include="Kinopoisk\LoadFilmInfo.cpp" />
+    <ClCompile Include="Kinopoisk\LoadKinopoiskPage.cpp" />
+    <ClCompile Include="Kinopoisk\LoadSerialEpisodes.cpp" />
+    <ClCompile Include="License\BlowFish.cpp" />
+    <ClCompile Include="License\KeySerialize.cpp" />
+    <ClCompile Include="License\LicenseBox.cpp" />
+    <ClCompile Include="ListBoxCH.cpp" />
+    <ClCompile Include="LoadBackupDlg.cpp" />
+    <ClCompile Include="LoadPng.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Maintenance.cpp" />
+    <ClCompile Include="ManageCollectionsDlg.cpp" />
+    <ClCompile Include="ManageRootDirDlg.cpp" />
+    <ClCompile Include="MediaInfo.cpp" />
+    <ClCompile Include="NewFileExtension.cpp" />
+    <ClCompile Include="OnscreenKeyboardDlg.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PersonInfo.cpp" />
+    <ClCompile Include="PluginManager.cpp" />
+    <ClCompile Include="plugin\AndroidExport.cpp" />
+    <ClCompile Include="plugin\AndroidExportDlg.cpp" />
+    <ClCompile Include="plugin\ArchividImport.cpp" />
+    <ClCompile Include="poster.cpp" />
+    <ClCompile Include="PosterDownloader.cpp" />
+    <ClCompile Include="PrivateLock.cpp" />
+    <ClCompile Include="ProgramSettingsDlg.cpp" />
+    <ClCompile Include="ProgressDlg.cpp" />
+    <ClCompile Include="ProxySettings.cpp" />
+    <ClCompile Include="RenameDialog.cpp" />
+    <ClCompile Include="ResString.cpp" />
+    <ClCompile Include="RootRenameDlg.cpp" />
+    <ClCompile Include="ScrollHelper.cpp" />
+    <ClCompile Include="SelectAutofillPlugin.cpp" />
+    <ClCompile Include="SerialFillDlg.cpp" />
+    <ClCompile Include="SetWin10Theme.cpp" />
+    <ClCompile Include="ShortcutDlg.cpp" />
+    <ClCompile Include="ShowPie.cpp" />
+    <ClCompile Include="SortPredicates.cpp" />
+    <ClCompile Include="SynchronizeDlg.cpp" />
+    <ClCompile Include="SynchronizeFiles.cpp" />
+    <ClCompile Include="TagManager.cpp" />
+    <ClCompile Include="TestIP.cpp" />
+    <ClCompile Include="TestPassword.cpp" />
+    <ClCompile Include="ThemeBgPage.cpp" />
+    <ClCompile Include="ThemeEditor.cpp" />
+    <ClCompile Include="ThemeListPage.cpp" />
+    <ClCompile Include="ThemeMenuPage.cpp" />
+    <ClCompile Include="ThemeName.cpp" />
+    <ClCompile Include="ThemeShadowPage.cpp" />
+    <ClCompile Include="ThemeTilePage.cpp" />
+    <ClCompile Include="ThemeTreePage.cpp" />
+    <ClCompile Include="ThumbnailSettingsDlg.cpp" />
+    <ClCompile Include="TipOfDay.cpp" />
+    <ClCompile Include="Translite.cpp" />
+    <ClCompile Include="ThumbGenerator.cpp" />
+    <ClCompile Include="Version.cpp" />
+    <ClCompile Include="VideoCat.cpp" />
+    <ClCompile Include="VideoCatDoc.cpp">
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NoListing</AssemblerOutput>
+      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NoListing</AssemblerOutput>
+    </ClCompile>
+    <ClCompile Include="VideoCatView.cpp" />
+    <ClCompile Include="VideoInput\videoInput.cpp" />
+    <ClCompile Include="VideoTreeView.cpp" />
+    <ClCompile Include="ViewStyle.cpp" />
+    <ClCompile Include="ViewStyleDlg.cpp" />
+    <ClCompile Include="VividTree.cpp" />
+    <ClCompile Include="WaitDlg.cpp" />
+    <ClCompile Include="WinVerTest.cpp" />
+    <ClCompile Include="XPGroupBox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VideoCat.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\10.bmp" />
+    <Image Include="res\10.png" />
+    <Image Include="res\about.bmp" />
+    <Image Include="res\addroot.bmp" />
+    <Image Include="res\arrow-lr.bmp" />
+    <Image Include="res\bg.bmp" />
+    <Image Include="res\bg.png" />
+    <Image Include="res\bg_description.bmp" />
+    <Image Include="res\bg_description.png" />
+    <Image Include="res\bitmap2.bmp" />
+    <Image Include="res\bitmap6.bmp" />
+    <Image Include="res\bitmap8.bmp" />
+    <Image Include="res\buttons.bmp" />
+    <Image Include="res\buttons.png" />
+    <Image Include="res\buy.ico" />
+    <Image Include="res\cinemate.ico" />
+    <Image Include="res\clear.bmp" />
+    <Image Include="res\color_theme.bmp" />
+    <Image Include="res\database.ico" />
+    <Image Include="res\default_bg.jpg" />
+    <Image Include="res\directories.bmp" />
+    <Image Include="res\down.bmp" />
+    <Image Include="res\edit.bmp" />
+    <Image Include="res\empty_16.bmp" />
+    <Image Include="res\episode-small.bmp" />
+    <Image Include="res\episode-small.png" />
+    <Image Include="res\eyes.bmp" />
+    <Image Include="res\file.bmp" />
+    <Image Include="res\file_tree.bmp" />
+    <Image Include="res\film.bmp" />
+    <Image Include="res\film3d.bmp" />
+    <Image Include="res\filter.bmp" />
+    <Image Include="res\find.bmp" />
+    <Image Include="res\folder.bmp" />
+    <Image Include="res\folder.ico" />
+    <Image Include="res\folder.png" />
+    <Image Include="res\folder_locked.png" />
+    <Image Include="res\folder_user.png" />
+    <Image Include="res\goback.bmp" />
+    <Image Include="res\goback.png" />
+    <Image Include="res\help.bmp" />
+    <Image Include="res\icon-map.png" />
+    <Image Include="res\icon3.ico" />
+    <Image Include="res\icon4.ico" />
+    <Image Include="res\icon6.ico" />
+    <Image Include="res\keyboard.bmp" />
+    <Image Include="res\kinopoisk-mob.bmp" />
+    <Image Include="res\lock.bmp" />
+    <Image Include="res\main.bmp" />
+    <Image Include="res\minus.bmp" />
+    <Image Include="res\noposter-small.bmp" />
+    <Image Include="res\noposter-small.png" />
+    <Image Include="res\noposter.bmp" />
+    <Image Include="res\noposter.png" />
+    <Image Include="res\order.bmp" />
+    <Image Include="res\person.bmp" />
+    <Image Include="res\persons.bmp" />
+    <Image Include="res\plugin.bmp" />
+    <Image Include="res\plus.bmp" />
+    <Image Include="res\png1.png" />
+    <Image Include="res\png4.png" />
+    <Image Include="res\png5.png" />
+    <Image Include="res\proxy.bmp" />
+    <Image Include="res\qr-code.bmp" />
+    <Image Include="res\rating.png" />
+    <Image Include="res\recently.bmp" />
+    <Image Include="res\rename.bmp" />
+    <Image Include="res\root_cat.bmp" />
+    <Image Include="res\sad.bmp" />
+    <Image Include="res\save.bmp" />
+    <Image Include="res\scrollbar.bmp" />
+    <Image Include="res\selected.bmp" />
+    <Image Include="res\selected.png" />
+    <Image Include="res\selected_list.png" />
+    <Image Include="res\SerialLogo.bmp" />
+    <Image Include="res\setting.bmp" />
+    <Image Include="res\setting_cat.bmp" />
+    <Image Include="res\shadow-left.bmp" />
+    <Image Include="res\shadow-left.png" />
+    <Image Include="res\shareware.png" />
+    <Image Include="res\stars.bmp" />
+    <Image Include="res\stars.png" />
+    <Image Include="res\tag.bmp" />
+    <Image Include="res\tile_shadow.png" />
+    <Image Include="res\tooltip.bmp" />
+    <Image Include="res\tooltip.png" />
+    <Image Include="res\tree.bmp" />
+    <Image Include="res\tree.png" />
+    <Image Include="res\tree_closed.bmp" />
+    <Image Include="res\tree_opened.bmp" />
+    <Image Include="res\up.bmp" />
+    <Image Include="res\update.bmp" />
+    <Image Include="res\url.bmp" />
+    <Image Include="res\VideoCat.bmp" />
+    <Image Include="res\VideoCat.ico" />
+    <Image Include="res\VideoCat.png" />
+    <Image Include="res\VideoCatDoc.ico" />
+    <Image Include="res\view_settings_16.bmp" />
+    <Image Include="res\VK.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+    <None Include="json\json_valueiterator.inl" />
+    <None Include="res\text1.bin" />
+    <None Include="res\VideoCat.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\chart.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Net\Net.vcxproj">
+      <Project>{20ac907a-1d70-4aee-b2bc-9bd37fd60be5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedBase\SharedBase.vcxproj">
+      <Project>{8240f263-3ca5-41ca-97fc-ea33075abf7c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties _x007B_8856F961-340A-11D0-A96B-00C04FD705A2_x007D_="CExplorer" RESOURCE_FILE="VideoCat.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

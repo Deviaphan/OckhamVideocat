@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+body{
+background:#fff;
+color:#333;
+font-family:"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+font-size:.9em;
+padding:40px;}
+#title{
+margin-bottom:16px;
+font-family:"Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+font-size:1.5em;
+border-bottom:1px solid #000;
+padding:0 0 16px 64px;}
+#container{
+width:1000px;
+margin:0;}
+#chart,#chartData{
+border:1px solid #333;
+background:#ebedf2 url(http://videocat.maagames.ru/images/diagram-gradient.png) repeat-x 0 0;}
+#chart{
+display:block;
+float:right;
+cursor:pointer;
+margin:0;}
+#chartData{
+width:200px;
+float:right;
+border-collapse:collapse;
+box-shadow:0 0 1em rgba(0,0,0,0.5);
+-moz-box-shadow:0 0 1em rgba(0,0,0,0.5);
+-webkit-box-shadow:0 0 1em rgba(0,0,0,0.5);
+margin:0 40px 0 0;}
+#chartData th,#chartData td{
+border:1px dotted #666;
+text-align:left;
+padding:.5em;}
+#chartData th{
+border-bottom:2px solid #333;}
+#chartData td{
+cursor:pointer;}
+#chartData td.highlight{
+background:#ddd;}
+#chartData tr:hover td{
+background:#f0f0f0;}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<!--[if IE]>
+<script src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+<![endif]-->
+<script>
+$(pieChart);function pieChart(){var i=60;var j=1;var k="#fff";var l="#ddd";var m=25;var n=3;var o=40;var p=65;var q="bold 16px 'Trebuchet MS', Verdana, sans-serif";var r="bold 12px 'Trebuchet MS', Verdana, sans-serif";var s="rgba( 0, 0, 0, .5 )";var t=5;var u=5;var v=5;var w=2;var x="#333";var y=-.5*Math.PI;var z;var A=-1;var B=0;var C=0;var D=[];var E=[];var F=0;var G;var H;var I;var J;var K;init();function init(){z=document.getElementById('chart');if(typeof z.getContext==='undefined')return;G=z.width;H=z.height;I=G/2;J=H/2;K=Math.min(G,H)/2*(i/100);var b=-1;var c=0;$('#chartData td').each(function(){c++;if(c%2!=0){b++;D[b]=[];D[b]['label']=$(this).text()}else{var a=parseFloat($(this).text());F+=a;D[b]['value']=a}$(this).data('slice',b);$(this).click(handleTableClick);if(rgb=$(this).css('color').match(/rgb\((\d+), (\d+), (\d+)/)){E[b]=[rgb[1],rgb[2],rgb[3]]}else if(hex=$(this).css('color').match(/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/)){E[b]=[parseInt(hex[1],16),parseInt(hex[2],16),parseInt(hex[3],16)]}else{alert("Error: Colour could not be determined! Please specify table colours using the format '#xxxxxx'");return}});var d=0;for(var e in D){D[e]['startAngle']=2*Math.PI*d;D[e]['endAngle']=2*Math.PI*(d+(D[e]['value']/F));d+=D[e]['value']/F}drawChart();$('#chart').click(handleChartClick)}function handleChartClick(a){var b=a.pageX-this.offsetLeft;var c=a.pageY-this.offsetTop;var d=b-I;var e=c-J;var f=Math.sqrt(Math.pow(Math.abs(d),2)+Math.pow(Math.abs(e),2));if(f<=K){var g=Math.atan2(e,d)-y;if(g<0)g=2*Math.PI+g;for(var h in D){if(g>=D[h]['startAngle']&&g<=D[h]['endAngle']){toggleSlice(h);return}}}pushIn()}function handleTableClick(a){var b=$(this).data('slice');toggleSlice(b)}function toggleSlice(a){if(a==A){pushIn()}else{startPullOut(a)}}function startPullOut(a){if(A==a)return;A=a;B=0;clearInterval(C);C=setInterval(function(){animatePullOut(a)},o);$('#chartData td').removeClass('highlight');var b=$('#chartData td:eq('+(a*2)+')');var c=$('#chartData td:eq('+(a*2+1)+')');b.addClass('highlight');c.addClass('highlight')}function animatePullOut(a){B+=n;if(B>=m){clearInterval(C);return}drawChart()}function pushIn(){A=-1;B=0;clearInterval(C);drawChart();$('#chartData td').removeClass('highlight')}function drawChart(){var a=z.getContext('2d');a.clearRect(0,0,G,H);for(var b in D){if(b!=A)drawSlice(a,b)}if(A!=-1)drawSlice(a,A)}function drawSlice(a,b){var c=D[b]['startAngle']+y;var d=D[b]['endAngle']+y;if(b==A){var e=(c+d)/2;var f=B*easeOut(B/m,.8);startX=I+Math.cos(e)*f;startY=J+Math.sin(e)*f;a.fillStyle='rgb('+E[b].join(',')+')';a.textAlign="center";a.font=q;a.fillText(D[b]['label'],I+Math.cos(e)*(K+m+p),J+Math.sin(e)*(K+m+p));a.font=r;a.fillText(D[b]['value']+" ("+(parseInt(D[b]['value']/F*100+.5))+"%)",I+Math.cos(e)*(K+m+p),J+Math.sin(e)*(K+m+p)+20);a.shadowOffsetX=t;a.shadowOffsetY=u;a.shadowBlur=v}else{startX=I;startY=J}var g=a.createLinearGradient(0,0,G*.75,H*.75);g.addColorStop(0,l);g.addColorStop(1,'rgb('+E[b].join(',')+')');a.beginPath();a.moveTo(startX,startY);a.arc(startX,startY,K,c,d,false);a.lineTo(startX,startY);a.closePath();a.fillStyle=g;a.shadowColor=(b==A)?s:"rgba( 0, 0, 0, 0 )";a.fill();a.shadowColor="rgba( 0, 0, 0, 0 )";if(b==A){a.lineWidth=w;a.strokeStyle=x}else{a.lineWidth=j;a.strokeStyle=k}a.stroke()}function easeOut(a,b){return(Math.pow(1-a,b)+1)}};
+</script>
+</head>
