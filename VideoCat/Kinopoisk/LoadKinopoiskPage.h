@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include "KinopoiskInfo.h"
+#include <vector>
 
-bool LoadKinopoiskInfo( KinopoiskId id, KinopoiskInfo & info, const CStringA & proxy );
+void LoadPageData( const CString& startUrl, ::std::vector<char>& utf8 );
+
 bool LoadKinopoiskInfoDirect( KinopoiskId id, KinopoiskInfo & info  );
 
 bool ProcessFilm( KinopoiskId id, const std::wstring & unicode, KinopoiskInfo & info );

@@ -47,7 +47,7 @@ BOOL CProgramSettings::OnInitDialog()
 	_tabCtrl.InsertItem( 1, ResString( IDS_SETTINGS_BEHAVIOR ) );
 	_tabCtrl.InsertItem( 2, ResString( IDS_SETTINGS_STYLE ) );
 	_tabCtrl.InsertItem( 3, ResString( IDS_SETTINGS_FORMATS ) );
-	_tabCtrl.InsertItem( 4, ResString( IDS_SETTINGS_PROXY ) );
+	//_tabCtrl.InsertItem( 4, ResString( IDS_SETTINGS_PROXY ) );
 
 	CRect rc;
 	_tabCtrl.GetWindowRect( &rc ); // получаем "рабочую область"
@@ -86,14 +86,14 @@ BOOL CProgramSettings::OnInitDialog()
 		fileFormatSettings.MoveWindow( &rc, FALSE );
 	}
 
-	{
-		proxySettings.proxyType = (int)GetGlobal().proxyType;
-		proxySettings.proxyIP = GetGlobal().proxyIP;
-		proxySettings.proxyPort = GetGlobal().proxyPort;
-		proxySettings.timeout = GetGlobal().proxyTimeout;
-		proxySettings.Create( IDD_PROXY_SETTINGS, &_tabCtrl );
-		proxySettings.MoveWindow( &rc, FALSE );
-	}
+	//{
+	//	proxySettings.proxyType = (int)GetGlobal().proxyType;
+	//	proxySettings.proxyIP = GetGlobal().proxyIP;
+	//	proxySettings.proxyPort = GetGlobal().proxyPort;
+	//	proxySettings.timeout = GetGlobal().proxyTimeout;
+	//	proxySettings.Create( IDD_PROXY_SETTINGS, &_tabCtrl );
+	//	proxySettings.MoveWindow( &rc, FALSE );
+	//}
 
 	_tabCtrl.SetCurSel( 1 );
 	behaviorDlg.ShowWindow(SW_SHOW);
@@ -126,8 +126,10 @@ void CProgramSettings::OnTcnSelchangeSettingsTab(NMHDR *, LRESULT *pResult)
 	case 3:
 		_currentPage = &fileFormatSettings;
 		break;
-	case 4:
-		_currentPage = &proxySettings;
+	//case 4:
+	//	_currentPage = &proxySettings;
+	//	break;
+	default:
 		break;
 	}
 
@@ -168,20 +170,20 @@ void CProgramSettings::OnOK()
 		global.SetViewScale( viewStyleDlg.viewScale );
 	}
 
-	{
-		proxySettings.UpdateData();
+	//{
+	//	proxySettings.UpdateData();
 
-		if( GetGlobal().proxyType != (ProxyType)proxySettings.proxyType )
-		{
-			if( (ProxyType)proxySettings.proxyType == ProxyType::UseProxy )
-				GetGlobal().ReadProxyList();
-		}
+	//	if( GetGlobal().proxyType != (ProxyType)proxySettings.proxyType )
+	//	{
+	//		if( (ProxyType)proxySettings.proxyType == ProxyType::UseProxy )
+	//			GetGlobal().ReadProxyList();
+	//	}
 
-		GetGlobal().SetProxyType( proxySettings.proxyType );
-		GetGlobal().SetProxyIP( proxySettings.proxyIP );
-		GetGlobal().SetProxyPort( proxySettings.proxyPort );
-		GetGlobal().SetTimeout( proxySettings.timeout );
-	}
+	//	GetGlobal().SetProxyType( proxySettings.proxyType );
+	//	GetGlobal().SetProxyIP( proxySettings.proxyIP );
+	//	GetGlobal().SetProxyPort( proxySettings.proxyPort );
+	//	GetGlobal().SetTimeout( proxySettings.timeout );
+	//}
 
 	if( _doc )
 	{

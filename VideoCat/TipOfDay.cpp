@@ -159,7 +159,7 @@ void CTipOfDay::OnPrevHint()
 
 LRESULT CTipOfDay::OnNcHitTest( CPoint point )
 {
-	UINT ret = CDialog::OnNcHitTest( point );
+	const LRESULT ret = CDialog::OnNcHitTest( point );
 
 	// если обработчик по умолчанию говорит нам что мышка
 	// над клиентской областью окна,  заменяем возвращаемое
@@ -168,7 +168,7 @@ LRESULT CTipOfDay::OnNcHitTest( CPoint point )
 	if( ret == HTCLIENT )
 		return HTCAPTION;
 
-	return CDialog::OnNcHitTest( point );
+	return ret;
 }
 
 

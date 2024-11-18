@@ -45,7 +45,7 @@ void LoadSerialEpisodes( KinopoiskId serialID, SeriesDescription & description )
 	//unicode[count] = L'\0';
 
 	CopyWebPageDlg copyDlg;
-	copyDlg.startPageUrl.Format( L"http://webcache.googleusercontent.com/search?q=cache:https://www.kinopoisk.ru/film/%u/episodes/", serialID );
+	copyDlg.startPageUrl.Format( L"https://www.kinopoisk.ru/film/%u/episodes/", serialID );
 	if( copyDlg.DoModal() != IDOK )
 		return;
 

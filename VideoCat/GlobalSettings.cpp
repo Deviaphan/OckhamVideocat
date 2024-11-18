@@ -91,14 +91,14 @@ GlobalSettings::GlobalSettings()
 	, _viewType( ViewType::Mixed )
 	, alwaysShowRating( FALSE )
 	, hideSecondTitle( FALSE )
-	, proxyType( ProxyType::UseTor )
-	, proxyIP( (127 << 24) | (1) )
-	, proxyPort( 9150 )
+	//, proxyType( ProxyType::UseTor )
+	//, proxyIP( (127 << 24) | (1) )
+	//, proxyPort( 9150 )
 	, theme( nullptr )
 	, numRandomFilms(10)
 	, autoplayRandomFilm(FALSE)
 	, viewScale(100)
-	, proxyTimeout(0)
+	//, proxyTimeout(0)
 {
 	// получаем полный путь
 	{
@@ -146,10 +146,10 @@ void GlobalSettings::Init()
 
 			viewScale = theApp.GetProfileInt( L"", L"viewScale", 100 );
 
-			proxyType = (ProxyType)theApp.GetProfileInt( L"", L"proxyType", 0 );
-			proxyIP = theApp.GetProfileInt( L"", L"proxyIP", (127 << 24) | (1) );
-			proxyPort = (short)theApp.GetProfileInt( L"", L"proxyPort", 9150 );
-			proxyTimeout = theApp.GetProfileInt( L"", L"proxyTimeout", 30 );
+			//proxyType = (ProxyType)theApp.GetProfileInt( L"", L"proxyType", 0 );
+			//proxyIP = theApp.GetProfileInt( L"", L"proxyIP", (127 << 24) | (1) );
+			//proxyPort = (short)theApp.GetProfileInt( L"", L"proxyPort", 9150 );
+			//proxyTimeout = theApp.GetProfileInt( L"", L"proxyTimeout", 30 );
 			
 			{
 				UINT numBytes = 0;
@@ -191,10 +191,10 @@ void GlobalSettings::Init()
 			theme->Initialize(false);
 		}
 
-#pragma omp section
-		{
-			ReadProxyList();
-		}
+//#pragma omp section
+//		{
+//			ReadProxyList();
+//		}
 	}
 }
 
@@ -340,48 +340,48 @@ void GlobalSettings::SetViewScale( int scale )
 	theApp.WriteProfileInt( L"", L"viewScale", viewScale);
 }
 
-CStringA GlobalSettings::GetProxy() const
-{
-	if( proxyType == ProxyType::UseTor )
-	{
-		CStringA torIP;
-		const DWORD ip = proxyIP;
-		const DWORD port = proxyPort;
-		torIP.Format( "%i.%i.%i.%i:%i", (ip >> 24) & 0xff, (ip >> 16) & 0xff, (ip >> 8) & 0xff, ip & 0xff, port );
-		return torIP;
-	}
-	else
-	{
-		if( _proxyList.empty() )
-			return CStringA();
+//CStringA GlobalSettings::GetProxy() const
+//{
+//	if( proxyType == ProxyType::UseTor )
+//	{
+//		CStringA torIP;
+//		const DWORD ip = proxyIP;
+//		const DWORD port = proxyPort;
+//		torIP.Format( "%i.%i.%i.%i:%i", (ip >> 24) & 0xff, (ip >> 16) & 0xff, (ip >> 8) & 0xff, ip & 0xff, port );
+//		return torIP;
+//	}
+//	else
+//	{
+//		if( _proxyList.empty() )
+//			return CStringA();
+//
+//		const unsigned index = (unsigned)(((double)rand() / (double)RAND_MAX) * _proxyList.size());
+//
+//		return _proxyList.at( index );
+//	}
+//}
 
-		const unsigned index = (unsigned)(((double)rand() / (double)RAND_MAX) * _proxyList.size());
-
-		return _proxyList.at( index );
-	}
-}
-
-void GlobalSettings::ReadProxyList()
-{
-	VC_TRY;
-
-	_proxyList.clear();
-
-	const CString proxyFile = _programDir + L"proxy.txt";
-	if( !PathFileExists( proxyFile ) )
-		return;
-
-	std::ifstream in( proxyFile );
-	while( in )
-	{
-		std::string proxy;
-		in >> proxy;
-		if( proxy.size() > 8 )
-			_proxyList.emplace_back( proxy.c_str() );
-	}
-
-	VC_CATCH_ALL;
-}
+//void GlobalSettings::ReadProxyList()
+//{
+//	VC_TRY;
+//
+//	_proxyList.clear();
+//
+//	const CString proxyFile = _programDir + L"proxy.txt";
+//	if( !PathFileExists( proxyFile ) )
+//		return;
+//
+//	std::ifstream in( proxyFile );
+//	while( in )
+//	{
+//		std::string proxy;
+//		in >> proxy;
+//		if( proxy.size() > 8 )
+//			_proxyList.emplace_back( proxy.c_str() );
+//	}
+//
+//	VC_CATCH_ALL;
+//}
 
 BOOL GlobalSettings::ShowTipOfDay() const
 {
@@ -399,41 +399,41 @@ CString GlobalSettings::GetHintDir() const
 	return _programDir + L"videocat\\hints\\";
 }
 
-void GlobalSettings::SetProxyType( int type )
-{
-	if( (ProxyType)type != proxyType )
-	{
-		proxyType = (ProxyType)type;
-		theApp.WriteProfileInt( L"", L"proxyType", type );
-	}
-}
+//void GlobalSettings::SetProxyType( int type )
+//{
+//	if( (ProxyType)type != proxyType )
+//	{
+//		proxyType = (ProxyType)type;
+//		theApp.WriteProfileInt( L"", L"proxyType", type );
+//	}
+//}
 
-void GlobalSettings::SetProxyIP( DWORD ip )
-{
-	if( ip != proxyIP )
-	{
-		proxyIP = ip;
-		theApp.WriteProfileInt( L"", L"proxyIP", proxyIP );
-	}
-}
-
-void GlobalSettings::SetProxyPort( short port )
-{
-	if( port != proxyPort )
-	{
-		proxyPort = port;
-		theApp.WriteProfileInt( L"", L"proxyPort", proxyPort );
-	}
-}
-
-void GlobalSettings::SetTimeout( unsigned timeout )
-{
-	if( proxyTimeout != timeout )
-	{
-		proxyTimeout = timeout;
-		theApp.WriteProfileInt( L"", L"proxyTimeout", proxyTimeout );
-	}
-}
+//void GlobalSettings::SetProxyIP( DWORD ip )
+//{
+//	if( ip != proxyIP )
+//	{
+//		proxyIP = ip;
+//		theApp.WriteProfileInt( L"", L"proxyIP", proxyIP );
+//	}
+//}
+//
+//void GlobalSettings::SetProxyPort( short port )
+//{
+//	if( port != proxyPort )
+//	{
+//		proxyPort = port;
+//		theApp.WriteProfileInt( L"", L"proxyPort", proxyPort );
+//	}
+//}
+//
+//void GlobalSettings::SetTimeout( unsigned timeout )
+//{
+//	if( proxyTimeout != timeout )
+//	{
+//		proxyTimeout = timeout;
+//		theApp.WriteProfileInt( L"", L"proxyTimeout", proxyTimeout );
+//	}
+//}
 
 void GlobalSettings::SetTollbarCommands( const std::vector<CommandID> & tc )
 {

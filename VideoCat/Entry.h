@@ -98,9 +98,9 @@ public:
 		, flags( (EntryType)EntryTypes::Empty )
 		, numViews( 0 )
 		, posterId( DefaultPosterID )
+		, date{ 0, 0 }
 		, pluginID( PluginNone )
 		, sortType( sort_predicates::SortDefault )
-		, date{ 0, 0 }
 	{
 	}
 

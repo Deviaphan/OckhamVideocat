@@ -72,9 +72,6 @@
     <ClInclude Include="GenreFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="explorer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Cyrillic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -615,6 +612,12 @@
     <ClInclude Include="VideoInput\videoInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EdgeBrowser\ComponentBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeBrowser\ViewComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VideoCat.cpp">
@@ -660,9 +663,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GenreFilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="explorer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Cyrillic.cpp">
@@ -1112,6 +1112,9 @@
     <ClCompile Include="json\json_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EdgeBrowser\ViewComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VideoCat.rc">
@@ -1428,8 +1431,12 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\chart.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
 </Project>

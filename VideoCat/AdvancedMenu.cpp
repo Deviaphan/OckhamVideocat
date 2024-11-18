@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "pch.h"
 #include "AdvancedMenu.h"
-
+#include "Commands/CommandExecute.h"
 #include <iostream>
 #include <memory>
 #include "GlobalSettings.h"
@@ -293,6 +293,12 @@ void AdvancedMenu::AddItem( AdvancedMenu * popup, IAdvancedMenuItem * item, UINT
 
 	AddItem( (UINT_PTR)popup->m_hMenu, item, flags | MF_POPUP );
 }
+
+void AdvancedMenu::AddItem( CommandID id )
+{
+	this->AddItem( (UINT_PTR)(id), new adv_mfc::AdvancedTextItem( CommandExecute::Instance().GetCommand( id ).commandTitle, CommandExecute::Instance().GetCommand( id ).iconID ) );
+}
+
 
 void AdvancedMenu::AddSeparator( IAdvancedMenuItem * item )
 {

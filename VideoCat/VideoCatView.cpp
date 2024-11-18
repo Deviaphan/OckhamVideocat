@@ -71,7 +71,7 @@ void CVideoCatView::BuildShortInfo( const Entry & entry, std::wstring & result )
 		usedNames.emplace_back( L"Overall bit rate" );
 	}
 
-	const unsigned int numItems = usedNames.size();
+	const unsigned int numItems = (unsigned int)usedNames.size();
 
 	std::vector<int> usedIdx( numItems );
 	std::vector<std::wstring> values( numItems );
@@ -301,10 +301,10 @@ void CVideoCatView::DrawGlass( const Gdiplus::Rect &  itemRect, const ItemStyle 
 			const double cY = (double)GetGlobal().bgFullSize.Height() / (double)glassImage->GetHeight();
 			if( cX > 0.0 && cY > 0.0 )
 			{
-				const INT x1 = ((itemRect.GetLeft() * _pageScale / 100) + GetGlobal().bgTree.Width()) / cX;
-				const INT y1 = (double)(itemRect.GetTop() * _pageScale / 100) / cY;
-				const INT x2 = (itemRect.Width * _pageScale / 100) / cX;
-				const INT y2 = (itemRect.Height * _pageScale / 100) / cY;
+				const INT x1 = static_cast<INT>(((itemRect.GetLeft() * _pageScale / 100) + GetGlobal().bgTree.Width()) / cX);
+				const INT y1 = static_cast<INT>((double)(itemRect.GetTop() * _pageScale / 100) / cY);
+				const INT x2 = static_cast<INT>((itemRect.Width * _pageScale / 100) / cX);
+				const INT y2 = static_cast<INT>((itemRect.Height * _pageScale / 100) / cY);
 
 				_gdi->SetInterpolationMode( Gdiplus::InterpolationMode::InterpolationModeBilinear );
 				const Gdiplus::CompositingMode oldComposing = _gdi->GetCompositingMode();
@@ -315,7 +315,7 @@ void CVideoCatView::DrawGlass( const Gdiplus::Rect &  itemRect, const ItemStyle 
 		}
 	}
 
-	Gdiplus::Pen pen( MakeColor( style.borderColor, style.borderOpacity ), 1.0f );
+	Gdiplus::Pen pen( MakeColor( style.borderColor, (BYTE)style.borderOpacity ), 1.0f );
 	_gdi->DrawRectangle( &pen, itemRect );
 }
 
@@ -540,6 +540,8 @@ ALL_FILES_PROCESSED:
 
 void CVideoCatView::DrawList( const CRect & clientRect, const CPoint & pos )
 {
+	using Gdiplus::REAL;
+
 	const bool isBigPreview = _drawThumbBox && _thumbIndex != -1;
 
 	if( isBigPreview )
@@ -561,7 +563,7 @@ void CVideoCatView::DrawList( const CRect & clientRect, const CPoint & pos )
 	if( itemWidth < 640 )
 		itemWidth = clientRect.Width();
 
-	const int offsetX = itemWidth + theme->listItem.offset;
+	//const int offsetX = itemWidth + theme->listItem.offset;
 	const int offsetY = (std::max)(itemHeight + theme->listItem.offset, 32);
 
 	const int ver = pos.y / offsetY;
@@ -630,7 +632,7 @@ void CVideoCatView::DrawList( const CRect & clientRect, const CPoint & pos )
 
 			const double scale = (double)poster->GetHeight() / style.height;
 
-			const Gdiplus::Rect posterDestRect( itemRect.GetLeft(), itemRect.GetTop(), poster->GetWidth() / scale, itemRect.Height );
+			const Gdiplus::Rect posterDestRect( itemRect.GetLeft(), itemRect.GetTop(), (INT)(poster->GetWidth() / scale), itemRect.Height );
 
 			_gdi->SetInterpolationMode( Gdiplus::InterpolationMode::InterpolationModeBilinear ); // уменьшенный размер, поэтмоу всегда с интерполяцией
 			const Gdiplus::CompositingMode oldComposing = _gdi->GetCompositingMode();
@@ -702,7 +704,7 @@ void CVideoCatView::DrawList( const CRect & clientRect, const CPoint & pos )
 				if( tech.first == L"Duration" )
 				{
 					Gdiplus::SolidBrush brush( MakeColor( style.colorTitle2 ) );
-					_gdi->DrawString( tech.second.c_str(), tech.second.length(), style.fontTitle2, Gdiplus::PointF( itemRect.GetLeft() + 92, itemRect.GetBottom() - style.sizeTitle2 - 4 ), nullptr, &brush );
+					_gdi->DrawString( tech.second.c_str(), (INT)tech.second.length(), style.fontTitle2, Gdiplus::PointF( (REAL)(itemRect.GetLeft() + 92), (REAL)(itemRect.GetBottom() - style.sizeTitle2 - 4) ), nullptr, &brush );
 
 					break;
 				}
@@ -838,47 +840,49 @@ void CVideoCatView::DrawEpisode( const Entry * entry, int posX, int posY )
 
 void CVideoCatView::DrawName( const Entry * entry, CRect & rect, bool rusFirst, UINT flags, const ItemStyle & style, bool advanced )
 {
+	using Gdiplus::REAL;
+
 	const std::wstring * firstLine = &entry->title;
 	const std::wstring * secondLine = &entry->titleAlt;
 	if( !rusFirst )
 		std::swap( firstLine, secondLine );
 
-	Gdiplus::RectF stringRect( rect.left, rect.top, rect.Width(), rect.Height() );
+	Gdiplus::RectF stringRect( (REAL)rect.left, (REAL)rect.top, (REAL)rect.Width(), (REAL)rect.Height() );
 
 	Gdiplus::StringFormat format( Gdiplus::StringFormatFlags::StringFormatFlagsNoWrap );
 	format.SetAlignment( (flags == DT_LEFT) ? Gdiplus::StringAlignment::StringAlignmentNear : Gdiplus::StringAlignment::StringAlignmentCenter );
 	format.SetTrimming( Gdiplus::StringTrimming::StringTrimmingEllipsisPath );
 
-	stringRect.Y += style.sizeTitle1 / 2;
+	stringRect.Y += (REAL)(style.sizeTitle1 / 2);
 	const Gdiplus::SolidBrush brush( MakeColor( style.colorTitle1 ) );
-	_gdi->DrawString( firstLine->c_str(), firstLine->length(), style.fontTitle1, stringRect, &format, &brush );
+	_gdi->DrawString( firstLine->c_str(), (INT)firstLine->length(), style.fontTitle1, stringRect, &format, &brush );
 
 	if( !GetGlobal().hideSecondTitle && !secondLine->empty() )
 	{
-		stringRect.Y += style.sizeTitle1 + style.sizeTitle2 / 2;
+		stringRect.Y += (REAL)(style.sizeTitle1 + style.sizeTitle2 / 2);
 
 		const Gdiplus::SolidBrush brush2( MakeColor( style.colorTitle2 ) );
-		_gdi->DrawString( secondLine->c_str(), secondLine->length(), style.fontTitle2, stringRect, &format, &brush2 );
+		_gdi->DrawString( secondLine->c_str(), (INT)secondLine->length(), style.fontTitle2, stringRect, &format, &brush2 );
 	}
 
 	if( advanced )
 	{
-		stringRect.Y = rect.bottom - style.sizeTag - style.sizeTag/2;
+		stringRect.Y = (REAL)(rect.bottom - style.sizeTag - style.sizeTag / 2);
 		if( !entry->tags.empty() )
 		{
 			CVideoCatDoc* doc = GetDocument();
 			CollectionDB * cdb = doc->GetCurrentCollection();
-			TagManager & tm = cdb->GetTagManager();
+			const TagManager & tm = cdb->GetTagManager();
 
 			std::wstring tagString;
-			for( TagId id : entry->tags )
+			for( const TagId id : entry->tags )
 			{
 				tagString += tm.GetTag( id );
 				tagString += L", ";
 			}
 
 			const Gdiplus::SolidBrush brush3( MakeColor( style.colorTag ) );
-			_gdi->DrawString( tagString.c_str(), tagString.length(), style.fontTags, stringRect, &format, &brush3 );
+			_gdi->DrawString( tagString.c_str(), (INT)tagString.length(), style.fontTags, stringRect, &format, &brush3 );
 		}
 	
 		if( entry->genres != EmptyGenres )
@@ -897,7 +901,7 @@ void CVideoCatView::DrawName( const Entry * entry, CRect & rect, bool rusFirst, 
 			}
 
 			const Gdiplus::SolidBrush brush4( MakeColor( style.colorGenre ) );
-			_gdi->DrawString( genreString.c_str(), genreString.length(), style.fontGenres, stringRect, &format, &brush4 );
+			_gdi->DrawString( genreString.c_str(), (INT)genreString.length(), style.fontGenres, stringRect, &format, &brush4 );
 		}
 
 	}
@@ -905,6 +909,8 @@ void CVideoCatView::DrawName( const Entry * entry, CRect & rect, bool rusFirst, 
 
 void CVideoCatView::DrawFolder( const DisplayItem & item, int posX, int posY )
 {
+	using Gdiplus::REAL;
+
 	Gdiplus::Bitmap * folderImg = _bmpRealFolder.get();
 	if( item._info->IsPrivate() )
 	{
@@ -933,15 +939,16 @@ void CVideoCatView::DrawFolder( const DisplayItem & item, int posX, int posY )
 	format.SetAlignment( Gdiplus::StringAlignmentCenter );
 
 	const Gdiplus::SolidBrush brush( MakeColor( RGB(75,75,75) ) );
-	const Gdiplus::RectF textRect( posX + 8, posY + 90 / 2, 100 - 16, style.sizeTitle1 );
+	const Gdiplus::RectF textRect( (REAL)(posX + 8), (REAL)(posY + 90 / 2), (REAL)(100 - 16), (REAL)(style.sizeTitle1) );
 	_gdi->DrawString( viewStat, viewStat.GetLength(), style.fontTitle1, textRect, &format, &brush );
 }
 
 void CVideoCatView::DrawListFolder( const DisplayItem & item, const Gdiplus::Rect & rect )
 {
+	using Gdiplus::REAL;
 	const ItemStyle & style = GetGlobal().theme->tileItem;
 
-	Gdiplus::RectF textRect( rect.GetLeft() + 85, rect.GetBottom() - style.sizeTitle1 - 4, rect.Width, style.sizeTitle1 );
+	Gdiplus::RectF textRect( (REAL)(rect.GetLeft() + 85), (REAL)(rect.GetBottom() - style.sizeTitle1 - 4), (REAL)(rect.Width), (REAL)(style.sizeTitle1) );
 
 	GetIconManager().Draw( *_gdi, IconManager::File, textRect.GetLeft(), textRect.GetTop(), style.sizeTitle1, style.btnColor );
 
@@ -959,6 +966,8 @@ void CVideoCatView::DrawListFolder( const DisplayItem & item, const Gdiplus::Rec
 
 void CVideoCatView::DrawTextBox( const CRect & clientRect, const CRect & itemRect, const std::wstring & headerText, const std::wstring & bodyText, const std::wstring & footerText )
 {
+	using Gdiplus::REAL;
+
 	ViewStyle * theme = GetGlobal().theme;
 
 	if( !theme->GetGlassImage() )
@@ -1004,10 +1013,10 @@ void CVideoCatView::DrawTextBox( const CRect & clientRect, const CRect & itemRec
 	if( cX <= 0 || cY <= 0 )
 		return;
 
-	const INT x1 = (destRect.X + GetGlobal().bgTree.Width()) / cX;
-	const INT y1 = (double)(destRect.Y) / cY;
-	const INT x2 = boxWidth / cX;
-	const INT y2 = boxHeight / cY;
+	const INT x1 = (INT)((destRect.X + GetGlobal().bgTree.Width()) / cX);
+	const INT y1 = (INT)((double)(destRect.Y) / cY);
+	const INT x2 = (INT)(boxWidth / cX);
+	const INT y2 = (INT)(boxHeight / cY);
 	
 	// стекло
 	_gdi->SetInterpolationMode( Gdiplus::InterpolationMode::InterpolationModeBilinear );
@@ -1017,7 +1026,7 @@ void CVideoCatView::DrawTextBox( const CRect & clientRect, const CRect & itemRec
 	_gdi->DrawImage( theme->GetGlassImage(), destRect, x1, y1, x2, y2, Gdiplus::UnitPixel );
 	_gdi->SetCompositingMode( oldComposing );
 
-	Gdiplus::RectF bodyRect( destRect.X, destRect.Y + headerSize, destRect.Width, destRect.Height - headerSize * 2 );
+	Gdiplus::RectF bodyRect( (REAL)destRect.X, (REAL)(destRect.Y + headerSize), (REAL)destRect.Width, (REAL)(destRect.Height - headerSize * 2) );
 
 	{
 		Gdiplus::ColorMatrix cm;
@@ -1032,10 +1041,10 @@ void CVideoCatView::DrawTextBox( const CRect & clientRect, const CRect & itemRec
 		iaDesc.SetColorMatrix( &cm );
 
 		_gdi->SetInterpolationMode( Gdiplus::InterpolationMode::InterpolationModeBilinear );
-		_gdi->DrawImage( _bgDescription.get(), bodyRect, 0, 0, _bgDescription->GetWidth(), _bgDescription->GetHeight(), Gdiplus::UnitPixel, &iaDesc );
+		_gdi->DrawImage( _bgDescription.get(), bodyRect, 0.0f, 0.0f, (REAL)(_bgDescription->GetWidth()), (REAL)(_bgDescription->GetHeight()), Gdiplus::UnitPixel, &iaDesc );
 	}
 
-	bodyRect.Inflate( -8.0, -8.0 );
+	bodyRect.Inflate( -8.0f, -8.0f );
 
 	// тени вокруг плитки
 	{
@@ -1099,12 +1108,12 @@ void CVideoCatView::DrawTextBox( const CRect & clientRect, const CRect & itemRec
 	format.SetTrimming( Gdiplus::StringTrimming::StringTrimmingEllipsisPath );
 
 	const Gdiplus::SolidBrush brush( MakeColor( RGB(63,63,63) ) );
-	_gdi->DrawString( headerText.c_str(), headerText.length(), theme->tileItemSelected.fontTitle1, Gdiplus::RectF( headerRect.X, headerRect.Y, headerRect.Width, headerRect.Height ), &format, &brush );
-	_gdi->DrawString( footerText.c_str(), footerText.length(), theme->tileItemSelected.fontTitle1, Gdiplus::RectF( footerRect.X, footerRect.Y, footerRect.Width, footerRect.Height ), &format, &brush );
+	_gdi->DrawString( headerText.c_str(), (INT)headerText.length(), theme->tileItemSelected.fontTitle1, Gdiplus::RectF( (REAL)(headerRect.X), (REAL)(headerRect.Y), (REAL)(headerRect.Width), (REAL)(headerRect.Height) ), &format, &brush );
+	_gdi->DrawString( footerText.c_str(), (INT)footerText.length(), theme->tileItemSelected.fontTitle1, Gdiplus::RectF( (REAL)(footerRect.X), (REAL)(footerRect.Y), (REAL)(footerRect.Width), (REAL)(footerRect.Height) ), &format, &brush );
 
 	const Gdiplus::SolidBrush brushBody( MakeColor( theme->tileItemSelected.colorTitle1 ) );
-	_gdi->DrawString( bodyText.c_str(), bodyText.length(), theme->tileItemSelected.fontTitle1, bodyRect, &format, &brushBody );
-	_gdi->DrawString( bodyText.c_str(), bodyText.length(), theme->tileItemSelected.fontTitle1, bodyRect, &format, &brushBody );
+	_gdi->DrawString( bodyText.c_str(), (INT)bodyText.length(), theme->tileItemSelected.fontTitle1, bodyRect, &format, &brushBody );
+	_gdi->DrawString( bodyText.c_str(), (INT)bodyText.length(), theme->tileItemSelected.fontTitle1, bodyRect, &format, &brushBody );
 }
 
 void CVideoCatView::DrawThumbPreview( const CRect & clientRect )
@@ -1227,6 +1236,8 @@ void CVideoCatView::DrawBackground( const CRect & clientRect )
 
 void CVideoCatView::DrawToolbar( const CRect & clientRect )
 {
+	using Gdiplus::REAL;
+
 	CVideoCatDoc * doc = GetDocument();
 	if( !doc )
 		return;
@@ -1258,7 +1269,7 @@ void CVideoCatView::DrawToolbar( const CRect & clientRect )
 
 		GetIconManager().Draw( *_gdi, IconManager::GoBack, btnPosX, btnPosY, 48, selectedText );
 
-		const Gdiplus::RectF textRect( 64, rect.GetTop(), rect.Width - 64, rect.Height );
+		const Gdiplus::RectF textRect( (REAL)64, (REAL)rect.GetTop(), (REAL)(rect.Width - 64), (REAL)rect.Height );
 
 		const Gdiplus::SolidBrush textBrush( MakeColor( selectedText ) );
 		Gdiplus::StringFormat format;
@@ -1314,13 +1325,13 @@ void CVideoCatView::DrawToolbar( const CRect & clientRect )
 			Gdiplus::RectF boundingBox;
 			_gdi->MeasureString( title, title.GetLength(), GetGlobal().theme->fontCommandbar, Gdiplus::PointF( 0.f, 0.f ), &boundingBox );
 
-			Gdiplus::Rect rect( 0, btnRect.top, boundingBox.Width + LEFT_OFFSET + LEFT_OFFSET, btnOffset );
+			Gdiplus::Rect rect( 0, btnRect.top, (INT)boundingBox.Width + LEFT_OFFSET + LEFT_OFFSET, btnOffset );
 
 			_gdi->FillRectangle( &brush, rect );
 
 			GetIconManager().Draw( *_gdi, iconId, btnPosX, btnPosY, btnSize, selectedText );
 
-			Gdiplus::RectF textRect( LEFT_OFFSET, rect.GetTop(), rect.Width - LEFT_OFFSET, rect.Height );
+			Gdiplus::RectF textRect( (REAL)(LEFT_OFFSET), (REAL)rect.GetTop(), (REAL)(rect.Width - LEFT_OFFSET), (REAL)rect.Height );
 			Gdiplus::SolidBrush textBrush( MakeColor( selectedText ) );
 			Gdiplus::StringFormat format;
 			format.SetAlignment( Gdiplus::StringAlignment::StringAlignmentNear );
@@ -1366,7 +1377,7 @@ void CVideoCatView::OnDraw( CDC* pDC )
 		_backbuffer.SelectObject( _bmpBackBuffer );
 
 		_gdi->SetPageUnit( Gdiplus::Unit::UnitPixel );
-		_gdi->SetPageScale( ((double)_pageScale) / 100.0 );
+		_gdi->SetPageScale( ((float)_pageScale) / 100.0f );
 
 
 		_gdi->SetSmoothingMode( Gdiplus::SmoothingMode::SmoothingModeNone );// _pageScale == 100 ? Gdiplus::SmoothingMode::SmoothingModeNone : Gdiplus::SmoothingMode::SmoothingModeAntiAlias );
@@ -1386,9 +1397,9 @@ void CVideoCatView::OnDraw( CDC* pDC )
 		_gdi->FillRectangle( &bgBrush, 0, 0, screenRect.Width(), screenRect.Height() );
 
 		const int thumbWidth = _thumbs->GetWidth();
-		int thumbHeight = _thumbs->GetHeight() / 10;
+		UINT thumbHeight = _thumbs->GetHeight() / 10;
 
-		constexpr int srcX = 0;
+		//constexpr int srcX = 0;
 		int offsetY = 0;
 		// смещение для поддержки старых скриншотов
 		if( _thumbs->GetHeight() != (thumbHeight * 10) )
@@ -1510,10 +1521,27 @@ void CVideoCatView::OnContextMenu( CWnd* /* pWnd */, CPoint point )
 		return;
 	}
 
+	CVideoCatDoc* doc = GetDocument();
 
-	const int index = GetItemIndex( point );
+	const int index = GetItemIndex( point ); 
 	if( index < 0 )
+	{
+		adv_mfc::AdvancedMenu menu;
+		menu.CreatePopupMenu();
+
+		CVideoTreeView* treeView = doc->GetVideoTreeView();
+		const Entry* treeEntry = treeView->GetCurrentItem();
+		if( treeEntry->IsFolder() )
+		{
+			CreateFolderMenu( menu, *treeEntry, true );
+
+			ClientToScreen( &point );
+
+			menu.TrackPopupMenuEx( TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON, point.x-32, point.y-32, this, nullptr );
+		}
+
 		return;
+	}
 
 	CSize pos = _scrollHelper.GetScrollPos();
 	pos.cx = ScaleInt( pos.cx );
@@ -1538,7 +1566,6 @@ void CVideoCatView::OnContextMenu( CWnd* /* pWnd */, CPoint point )
 
 	ClientToScreen( &itemRect );
 
-	CVideoCatDoc* doc = GetDocument();
 	const FilteredFileItems & displayItems = doc->GetFilteredFiles();
 	if( displayItems.empty() )
 		return;
@@ -1827,7 +1854,6 @@ void CVideoCatView::OnLButtonUp( UINT /*nFlags*/, CPoint point )
 	{
 		if( screenPoint.y < 64 )
 		{
-			CVideoCatDoc* doc = GetDocument();
 			CVideoTreeView * treeView = doc->GetVideoTreeView();
 			if( treeView )
 				treeView->GoBack();
@@ -1928,6 +1954,8 @@ void BuildThumbPreviewThread( CVideoCatView * view )
 
 void CVideoCatView::BuildThumbsPreview()
 {
+	using Gdiplus::REAL;
+
 	_smallThumbs.reset();
 
 	Gdiplus::Bitmap * full = _thumbs.get();
@@ -1940,7 +1968,7 @@ void CVideoCatView::BuildThumbsPreview()
 	const UINT bmpWidth =  full->GetWidth();
 	const UINT bmpHeight = full->GetHeight();
 
-	int srcHeight = bmpHeight / 10;
+	UINT srcHeight = bmpHeight / 10;
 
 	constexpr int srcX = 0;
 	int srcY = 0;
@@ -1960,8 +1988,8 @@ void CVideoCatView::BuildThumbsPreview()
 	const int destY = 0;
 	const int destWidth = BIG_THUMB_WIDTH;
 
-	Gdiplus::RectF srcRect( srcX, srcY, bmpWidth, srcHeight );
-	Gdiplus::RectF destRect( destX, destY, destWidth, BIG_THUMB_HEIGHT );
+	Gdiplus::RectF srcRect( (REAL)srcX, (REAL)srcY, (REAL)bmpWidth, (REAL)srcHeight );
+	Gdiplus::RectF destRect( (REAL)destX, (REAL)destY, (REAL)destWidth, (REAL)BIG_THUMB_HEIGHT );
 
 	const Gdiplus::Pen pen( Gdiplus::Color( 0, 0, 0 ), 2.0f );
 
@@ -1971,8 +1999,8 @@ void CVideoCatView::BuildThumbsPreview()
 
 		dc->DrawRectangle( &pen, destRect );
 
-		srcRect.Offset( 0, srcHeight );
-		destRect.Offset( destWidth, 0 );
+		srcRect.Offset( 0.0f, (REAL)srcHeight );
+		destRect.Offset( (REAL)destWidth, 0.0f );
 	}
 
 	_smallThumbs.reset( thumbs );
@@ -2095,7 +2123,7 @@ void CVideoCatView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 
 	__super::OnKeyDown( nChar, nRepCnt, nFlags );
 
-	const int itemWidth = !_listView ? DisplayItem::ItemWidth : DisplayItem::ListItemWidth;
+	//const int itemWidth = !_listView ? DisplayItem::ItemWidth : DisplayItem::ListItemWidth;
 	const int itemHeight = !_listView ? DisplayItem::ItemHeight : DisplayItem::ListItemHeight;
 
 	CRect r;
@@ -2272,7 +2300,7 @@ void CVideoCatView::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 	
 	SetCurrentItem( selectItem );
 
-	const int newLine = selectItem / _numHorz;
+	//const int newLine = selectItem / _numHorz;
 	const int topY = (selectItem / _numHorz) * itemHeight;
 	const int botY = topY + itemHeight;
 
@@ -2318,7 +2346,7 @@ CVideoCatView::ActiveItemType CVideoCatView::TestItemButtons( const Entry & entr
 
 BOOL CVideoCatView::OnMouseWheel( UINT f, short zDelta, CPoint p )
 {
-	_scrollHelper.OnMouseWheel( f, zDelta*_pageScale / 100, p );
+	_scrollHelper.OnMouseWheel( f, (short)(zDelta*_pageScale / 100), p );
 
 	UpdateView();
 
@@ -2448,7 +2476,15 @@ BOOL CVideoCatView::OnCommand( WPARAM wParam, LPARAM lParam )
 			return TRUE;
 		
 		if( _currentItem < 0 )
+		{
+			CommandInfo info;
+			info.doc = doc;
+			info.entry = doc->GetVideoTreeView()->GetCurrentItem();
+
+			CommandExecute::Instance().Process( (CommandID)menuId, &info );
+
 			return TRUE;
+		}
 
 		FilteredFileItems & displayItems = doc->GetFilteredFiles();
 		if( displayItems.empty() )

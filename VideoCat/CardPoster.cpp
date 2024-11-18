@@ -139,15 +139,17 @@ void CCardPoster::OnPaint()
 
 	CPaintDC dc( this );
 
+	using Gdiplus::REAL;
+
 	CRect imgRect;
 	GetDlgItem( IDC_POSTER_IMG )->GetWindowRect( imgRect );
 	ScreenToClient( imgRect );
 
 	std::unique_ptr<Gdiplus::Graphics> gdi( Gdiplus::Graphics::FromHDC( dc.GetSafeHdc() ) );
 
-	Gdiplus::RectF dest( imgRect.left, imgRect.top, _preview->GetWidth(), _preview->GetHeight() );
+	Gdiplus::RectF dest( (REAL)imgRect.left, (REAL)imgRect.top, (REAL)_preview->GetWidth(), (REAL)_preview->GetHeight() );
 
-	gdi->DrawImage( _preview, dest, 0, 0, _preview->GetWidth(), _preview->GetHeight(), Gdiplus::Unit::UnitPixel );
+	gdi->DrawImage( _preview, dest, 0.0f, 0.0f, (REAL)_preview->GetWidth(), (REAL)_preview->GetHeight(), Gdiplus::Unit::UnitPixel );
 }
 
 void CCardPoster::LoadPosterById()

@@ -127,7 +127,7 @@ void LoadFilmsInfo( CollectionDB * cdb, const EntryHandle & rootHandle )
 		cdb->TraverseAll( rootHandle, &all );
 	}
 
-	const int size = all.allFilms.size();
+	const int size = (int)all.allFilms.size();
 
 	ProgressController pc;
 	pc.Create( ResString( IDS_PROGRESS_FILL_CARDS ) );

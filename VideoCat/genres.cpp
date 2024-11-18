@@ -10,49 +10,45 @@ namespace
 
 	void InitGenreMap( )
 	{
-		g_genreMap;
+		g_genreMap.emplace( Genre::Action,	L"боевик" );
+		g_genreMap.emplace( Genre::Adventures,	L"приключения" );
+		g_genreMap.emplace( Genre::Anime,		L"аниме" );
+		g_genreMap.emplace( Genre::AnimatedSeries,	L"мультсериал" );
+		g_genreMap.emplace( Genre::Biography,	L"биография" );
+		g_genreMap.emplace( Genre::Cartoon,	L"мультфильм" );
+		g_genreMap.emplace( Genre::Children,	L"детский");
+		g_genreMap.emplace( Genre::Comedy,	L"комедия" );
+		g_genreMap.emplace( Genre::Concert,	L"концерт" );
+		g_genreMap.emplace( Genre::Crime,		L"криминал" );
+		g_genreMap.emplace( Genre::Detective,	L"детектив" );
+		g_genreMap.emplace( Genre::Documentary,	L"документальный" );
+		g_genreMap.emplace( Genre::Drama,		L"драма" );
+		g_genreMap.emplace( Genre::Erotica,	L"эротика" );
+		g_genreMap.emplace( Genre::Family,	L"семейный" );
+		g_genreMap.emplace( Genre::Fantasy,	L"фэнтези" );
+		g_genreMap.emplace( Genre::Fantastic,	L"фантастика" );
+		g_genreMap.emplace( Genre::FilmNoir,	L"фильм - нуар" );
+		g_genreMap.emplace( Genre::History,	L"исторический" );
+		g_genreMap.emplace( Genre::Horrors,	L"ужасы" );
+		g_genreMap.emplace( Genre::Melodrama,	L"мелодрама" );
+		g_genreMap.emplace( Genre::Military,	L"военный" );
+		g_genreMap.emplace( Genre::Music,		L"музыка" );
+		g_genreMap.emplace( Genre::Musical,	L"мюзикл" );
+		g_genreMap.emplace( Genre::Mysticism,	L"мистика" );
+		g_genreMap.emplace( Genre::News,		L"новости" );
+		g_genreMap.emplace( Genre::Porn,		L"для взрослых" );
+		g_genreMap.emplace( Genre::RealTV,	L"реальное ТВ" );
+		g_genreMap.emplace( Genre::Series,	L"телесериал" );
+		g_genreMap.emplace( Genre::Science,	L"научный" );
+		g_genreMap.emplace( Genre::Short,		L"короткометражка" );
+		g_genreMap.emplace( Genre::Sport,		L"спорт" );
+		g_genreMap.emplace( Genre::TalkShow,	L"ток - шоу" );
+		g_genreMap.emplace( Genre::Thriller,	L"триллер" );
+		g_genreMap.emplace( Genre::Western,	L"вестерн" );
 
-#define ADD_DESC( ID, NAME ) g_genreMap.emplace( ID, NAME )
-
-		ADD_DESC( Genre::Action,	L"боевик" );
-		ADD_DESC( Genre::Adventures,	L"приключения" );
-		ADD_DESC( Genre::Anime,		L"аниме" );
-		ADD_DESC( Genre::AnimatedSeries,	L"мультсериал" );
-		ADD_DESC( Genre::Biography,	L"биография" );
-		ADD_DESC( Genre::Cartoon,	L"мультфильм" );
-		ADD_DESC( Genre::Children,	L"детский");
-		ADD_DESC( Genre::Comedy,	L"комедия" );
-		ADD_DESC( Genre::Concert,	L"концерт" );
-		ADD_DESC( Genre::Crime,		L"криминал" );
-		ADD_DESC( Genre::Detective,	L"детектив" );
-		ADD_DESC( Genre::Documentary,	L"документальный" );
-		ADD_DESC( Genre::Drama,		L"драма" );
-		ADD_DESC( Genre::Erotica,	L"эротика" );
-		ADD_DESC( Genre::Family,	L"семейный" );
-		ADD_DESC( Genre::Fantasy,	L"фэнтези" );
-		ADD_DESC( Genre::Fantastic,	L"фантастика" );
-		ADD_DESC( Genre::FilmNoir,	L"фильм - нуар" );
-		ADD_DESC( Genre::History,	L"исторический" );
-		ADD_DESC( Genre::Horrors,	L"ужасы" );
-		ADD_DESC( Genre::Melodrama,	L"мелодрама" );
-		ADD_DESC( Genre::Military,	L"военный" );
-		ADD_DESC( Genre::Music,		L"музыка" );
-		ADD_DESC( Genre::Musical,	L"мюзикл" );
-		ADD_DESC( Genre::Mysticism,	L"мистика" );
-		ADD_DESC( Genre::News,		L"новости" );
-		ADD_DESC( Genre::Porn,		L"для взрослых" );
-		ADD_DESC( Genre::RealTV,	L"реальное ТВ" );
-		ADD_DESC( Genre::Series,	L"телесериал" );
-		ADD_DESC( Genre::Science,	L"научный" );
-		ADD_DESC( Genre::Short,		L"короткометражка" );
-		ADD_DESC( Genre::Sport,		L"спорт" );
-		ADD_DESC( Genre::TalkShow,	L"ток - шоу" );
-		ADD_DESC( Genre::Thriller,	L"триллер" );
-		ADD_DESC( Genre::Western,	L"вестерн" );
-
-		ADD_DESC( Genre::ArtHouse, L"арт-хаус" );
-		ADD_DESC( Genre::Catastrophe, L"катастрофа" );
-		ADD_DESC( Genre::Tutorial, L"туториал" );
+		g_genreMap.emplace( Genre::ArtHouse, L"арт-хаус" );
+		g_genreMap.emplace( Genre::Catastrophe, L"катастрофа" );
+		g_genreMap.emplace( Genre::Tutorial, L"туториал" );
 	}
 }
 

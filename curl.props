@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build"
+         ToolsVersion="4.0"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup Label="UserMacros">
+		<CurlInclude Condition="'$(Configuration)'=='Debug'">D:\projects\_3rd\cURL\builds\libcurl-vc14-x64-debug-static-sspi-schannel\include\</CurlInclude>
+		<CurlInclude Condition="'$(Configuration)'!='Debug'">D:\projects\_3rd\cURL\builds\libcurl-vc14-x64-release-static-sspi-schannel\include\</CurlInclude>
+		<CurlLib Condition="'$(Configuration)'=='Debug'">D:\projects\_3rd\cURL\builds\libcurl-vc14-x64-debug-static-sspi-schannel\lib\</CurlLib>
+		<CurlLib Condition="'$(Configuration)'!='Debug'">D:\projects\_3rd\cURL\builds\libcurl-vc14-x64-release-static-sspi-schannel\lib\</CurlLib>
+	</PropertyGroup>
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<PreprocessorDefinitions>CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+		</ClCompile>
+		<Link>
+			<AdditionalLibraryDirectories>$(CurlLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcurl_a_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies Condition="'$(Configuration)'!='Debug'">libcurl_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
+		</Link>
+	</ItemDefinitionGroup>
+</Project>

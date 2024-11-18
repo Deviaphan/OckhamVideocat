@@ -98,7 +98,6 @@ public:
 			return ri->second;
 
 		throw std::exception();
-		__assume(0);
 	}
 
 	EntryHandle InsertRoot( const CString & rootName, const CString & rootDir );
@@ -140,14 +139,7 @@ public:
 	void DeletePerson( const EntryHandle & handle );
 	PersonInfo * FindPerson( const EntryHandle & handle );
 
-	BOOL SearchHiddenFiles( const EntryHandle & rootHandle ) const
-	{
-		auto ii = _rootInfo.find( rootHandle );
-		if( ii != _rootInfo.end() )
-			return ii->second.searchHidden;
-
-		return FALSE;
-	}
+	BOOL SearchHiddenFiles( const EntryHandle& rootHandle ) const;
 
 	bool HasRecentlyViewed() const
 	{

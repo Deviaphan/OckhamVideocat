@@ -751,6 +751,15 @@ PersonInfo * CollectionDB::FindPerson( const EntryHandle & handle )
 	return nullptr;
 }
 
+BOOL CollectionDB::SearchHiddenFiles( const EntryHandle& rootHandle ) const
+{
+	auto ii = _rootInfo.find( rootHandle );
+	if( ii != _rootInfo.end() )
+		return ii->second.searchHidden;
+
+	return FALSE;
+}
+
 void CollectionDB::AddViewedFile( const Entry & entry )
 {
 	EntryHandle handle = entry.thisEntry;

@@ -341,7 +341,7 @@ bool ParseFile( const CString & filename, AtrchiVidInfo & avInfo )
 	std::wstring unicode;
 	unicode.resize( buffer.size() * 4 );
 
-	int count = MultiByteToWideChar( 1251, 0, std::data( buffer ), buffer.size(), &unicode[0], unicode.size() );
+	int count = MultiByteToWideChar( 1251, 0, std::data( buffer ), (int)buffer.size(), &unicode[0], (int)unicode.size() );
 	if( count <= 0 )
 		return false;
 

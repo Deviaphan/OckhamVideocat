@@ -330,7 +330,7 @@ CollapseGroupBox& CollapseGroupBox::SetFontName(const CString& strFont, BYTE byC
 
 CollapseGroupBox& CollapseGroupBox::SetFontUnderline(BOOL bSet)
 {
-	m_lf.lfUnderline = bSet;
+	m_lf.lfUnderline = (BYTE)bSet;
 	ReconstructFont();
 	UpdateSurface();
 	return *this;
@@ -338,7 +338,7 @@ CollapseGroupBox& CollapseGroupBox::SetFontUnderline(BOOL bSet)
 
 CollapseGroupBox& CollapseGroupBox::SetFontItalic(BOOL bSet)
 {
-	m_lf.lfItalic = bSet;
+	m_lf.lfItalic = (BYTE)bSet;
 	ReconstructFont();
 	UpdateSurface();
 	return *this;	

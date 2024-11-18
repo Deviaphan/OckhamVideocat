@@ -39,7 +39,7 @@ std::wstring Entry::GetMoviePath( const std::wstring& rootDir, CollectionDB & db
 	}
 	else if( Test(flags, EntryTypes::InnerFile) && !childs.empty() )
 	{
-		Entry * e = db.FindEntry( childs[0] );
+		const Entry * e = db.FindEntry( childs[0] );
 		if( e )
 		{
 			moviePath = rootDir + e->filePath;
@@ -85,7 +85,7 @@ PathHashType Entry::BuildHash() const
 	std::wstring fullPath = rootEntry.ToBase64().GetString();
 	fullPath += filePath;
 
-	return HashingPath( fullPath.c_str(), fullPath.length() );
+	return HashingPath( fullPath.c_str(), (unsigned int)fullPath.length() );
 }
 
 

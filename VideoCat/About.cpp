@@ -11,7 +11,7 @@
 #include "IconManager.h"
 #include "resource.h"
 
-#define UPDATE_DATA_MESSAGE (WM_APP + 1)
+constexpr DWORD UPDATE_DATA_MESSAGE = WM_APP + 1;
 
 CAboutDlg::CAboutDlg()
 	: CDialog( IDD_ABOUTBOX )

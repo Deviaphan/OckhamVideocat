@@ -14,124 +14,47 @@
 #include <string_view>
 #include "json/json.h"
 
-bool LoadKinopoiskInfo( KinopoiskId id, KinopoiskInfo & info, const CStringA & proxy )
+void LoadPageData( const CString& startUrl, std::vector<char>& utf8 )
 {
-	VC_TRY;
+	CopyWebPageDlg copyDlg;
+	copyDlg.startPageUrl = startUrl;
 
-	Curl::Global curlGuard;
+	if( copyDlg.DoModal() != IDOK )
+		return;
 
+	if( copyDlg.pageData.IsEmpty() )
+		return;
 
-#ifndef KP_UPDATER
-	Curl curl(GetGlobal().proxyTimeout);
-#else
-	Curl curl( 30, false );
-#endif
+	CWaitCursor wait;
 
-	CurlBuffer chunk;
-	CStringA curlQuery;
-
-	//curlQuery.Format( "https://www.kinopoisk.ru/film/%d/", id );
-	// скачиваем из кэша гугла, потому что КП быстро банит
-
-	curlQuery.Format( "http://webcache.googleusercontent.com/search?q=cache:https://www.kinopoisk.ru/film/%u/&num=1&strip=0&vwsrc=1", id );
-
-	VerifyCurl( curl_easy_setopt( curl, CURLOPT_URL, curlQuery.GetString() ) );
-	VerifyCurl( curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, CurlBuffer::WriteMemoryCallback ) );
-	VerifyCurl( curl_easy_setopt( curl, CURLOPT_WRITEDATA, &chunk ) );
-
-	curl.InitHeaders();
-
-#ifndef KP_UPDATER
-	curl.InitProxy( GetGlobal().proxyType, GetGlobal().GetProxy() );
-#else
-	curl.InitProxy( ProxyType::UseTor, "127.0.0.1:9150" );
-#endif
-
-	if( CURLE_OK != curl_easy_perform( curl ) )
-		return false;
-
-	chunk.TerminateBuffer();
-
-	//char *ct = nullptr;
-	//curl_easy_getinfo( curl, CURLINFO_CONTENT_TYPE, &ct );
-	//::CharLowerBuffA( ct, strlen( ct ) );
-	//const bool isWindows1251 = ::strstr( ct, "windows-1251" ) != nullptr;
-
-	char * ptr = (char*)chunk.GetData();
-	if( !ptr )
-		return false;
-
-	// теперь в html есть json блок, который можно спарсить
-	return ProcessFilmJson( id, ptr, ptr + chunk.GetSize(), info );
-
-	/*
-	std::wstring unicode;
-	unicode.resize( chunk.GetSize() * 8 );
-
-	int count = MultiByteToWideChar( isWindows1251 ? 1251 : CP_UTF8, 0, ptr, chunk.GetSize(), unicode.data(), unicode.size() );
-	if( count <= 0 )
-		return false;
-
-	unicode[count] = L'\0';
-
-	return ProcessFilm( (KinopoiskId)id, unicode, info );
-	*/
-
-	VC_CATCH( ... )
-	{
-		return false;
-	}
+	utf8.resize( copyDlg.pageData.GetLength() * 3 );
+	int utf8Size = WideCharToMultiByte( CP_UTF8, 0, copyDlg.pageData.GetString(), copyDlg.pageData.GetLength(), std::data( utf8 ), (int)utf8.size(), nullptr, nullptr );
+	utf8[utf8Size] = '\0';
 }
 
-#ifndef KP_UPDATER
 bool LoadKinopoiskInfoDirect( KinopoiskId id, KinopoiskInfo & info )
 {
 	VC_TRY;
 	
 	CString filmUrl;
-	//filmUrl.Format( L"https://www.kinopoisk.ru/film/%u/", id );
-	filmUrl.Format( L"http://webcache.googleusercontent.com/search?q=cache:https://www.kinopoisk.ru/film/%u/&num=1&strip=0&vwsrc=0", id );
 
-	CopyWebPageDlg copyDlg;
-	copyDlg.startPageUrl = filmUrl;
+	if( id != 0 )
+		filmUrl.Format( L"https://www.kinopoisk.ru/film/%u/", id );
+	else
+		filmUrl = L"https://www.kinopoisk.ru/";
 
-	if( copyDlg.DoModal() != IDOK )
+	::std::vector<char> utf8;
+	LoadPageData( filmUrl, utf8 );
+	if( utf8.empty() )
 		return false;
-
-	if( copyDlg.pageData.IsEmpty() )
-		return false;
-
-	CWaitCursor wait;
-
-	std::vector<char> utf8( copyDlg.pageData.GetLength() * 3 );
-	int utf8Size = WideCharToMultiByte( CP_UTF8, 0, copyDlg.pageData.GetString(), copyDlg.pageData.GetLength(), std::data( utf8 ), utf8.size(), nullptr, nullptr );
-	utf8[utf8Size] = '\0';
 
 	return ProcessFilmJson( (KinopoiskId)id, utf8.data(), utf8.data() + utf8.size(), info );
-
-	//std::wstring unicode = copyDlg.pageData.GetString();
-	{
-		//const bool isWindows1251 = copyDlg.pageCharset.CompareNoCase( "windows-1251" ) == 0;
-
-		//const int length = copyDlg.pageData.GetLength();
-
-		//unicode.resize( length * 4 );
-
-		//const int count = MultiByteToWideChar( isWindows1251 ? 1251 : CP_UTF8, 0, copyDlg.pageData, length, &unicode[0], unicode.size() );
-		//if( count <= 0 )
-		//	return false;
-
-		//unicode[count] = L'\0';
-	}
-
-	//return ProcessFilm( (KinopoiskId)id, unicode, info );
 
 	VC_CATCH( ... )
 	{
 		return false;
 	}
 }
-#endif
 
 Genres ImportKinopoiskGenres( const std::wstring & line )
 {
@@ -187,7 +110,25 @@ bool ProcessFilmJson( KinopoiskId id, const char * startPtr, const char * endPtr
 		reader->parse( ptr, endPtr, &data, &err );
 	}
 
-	info.filmID = id;
+	if( data["url"].isString() )
+	{
+		const std::string url = data["url"].asString();
+		// в конце url находится идентификатор фильма
+		auto idPos = url.length() - 1;
+		if( !isdigit( url[idPos] ) )
+			--idPos;
+		while( isdigit( url[idPos] ) )
+		{
+			--idPos;
+		}
+		++idPos;
+
+		info.filmID = std::atoi( url.c_str() + idPos );
+	}
+	else
+	{
+		info.filmID = id;
+	}
 
 	if( data["name"].isString() )
 		info.nameRU = ToUnicode( data["name"].asString() );
@@ -211,7 +152,7 @@ bool ProcessFilmJson( KinopoiskId id, const char * startPtr, const char * endPtr
 		{
 			try
 			{
-				info.year = std::stoi( y );
+				info.year = (unsigned short)std::stoi( y );
 			}
 			catch( ... )
 			{
@@ -243,6 +184,16 @@ bool ProcessFilmJson( KinopoiskId id, const char * startPtr, const char * endPtr
 		}
 
 		info.genres = genres;
+	}
+
+	if( data["aggregateRating"].isObject() )
+	{
+		Json::Value ratingObject = data["aggregateRating"];
+		if( ratingObject["ratingValue"].isDouble() )
+		{
+			const double d = ratingObject["ratingValue"].asDouble();
+			info.rating = (unsigned char)floor(d * 10.0 + 0.5);
+		}
 	}
 
 	if( taglinePos != std::string_view::npos )

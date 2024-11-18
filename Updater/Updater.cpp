@@ -55,7 +55,7 @@ BOOL CUpdaterApp::InitInstance()
 		}
 		case 3:
 		{
-			url = args[1];// L"http://videocat.maagames.ru/files/videocat_XXX.7z";
+			url = args[1];// L"http://videocat.maagames.ru/files/videocat_380.7z";
 			updateDir = args[2];
 			break;
 		}

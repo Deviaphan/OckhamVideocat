@@ -34,7 +34,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-const DWORD FIND_BY_NAME_ID = 6543;
+constexpr DWORD FIND_BY_NAME_ID = 6543;
 
 template< class T_Functor >
 bool ForEach( CTreeCtrl & tree, HTREEITEM root, T_Functor action )
@@ -389,10 +389,10 @@ void CVideoTreeView::RebuildTree()
 {
 	if( GetGlobal().theme )
 	{
-		_tree.SetItemHeight( GetGlobal().theme->tree.fontSize + 4 );
+		_tree.SetItemHeight( (SHORT)(GetGlobal().theme->tree.fontSize + 4) );
 
-		COLORREF bgColor = GetGlobal().theme->bgTopColor;
-		COLORREF textColor = GetGlobal().theme->tree.textColor;
+		const COLORREF bgColor = GetGlobal().theme->bgTopColor;
+		const COLORREF textColor = GetGlobal().theme->tree.textColor;
 
 		if( _ctrlBrush.m_hObject )
 		{
@@ -432,7 +432,7 @@ void CVideoTreeView::RebuildTree()
 		else
 			displayName = ResFormat( L"%s   <%s>", rootEntry->title.c_str(), rootEntry->filePath.c_str() );
 
-		int rootIndex = _rootList.AddString( displayName );
+		const int rootIndex = _rootList.AddString( displayName );
 		_rootList.SetItemDataPtr( rootIndex, rootEntry );
 
 		HTREEITEM parent = _tree.InsertItem( displayName );
@@ -546,7 +546,7 @@ Entry * CVideoTreeView::GetParentItem( Entry * item )
 
 void CVideoTreeView::GoBack()
 {
-	HTREEITEM selectedItem = _tree.GetSelectedItem();
+	const HTREEITEM selectedItem = _tree.GetSelectedItem();
 	HTREEITEM parentItem = _tree.GetParentItem( selectedItem );
 
 	if( !selectedItem )
@@ -627,7 +627,7 @@ void CVideoTreeView::OnContextMenu( CWnd* pWnd, CPoint point )
 	}
 }
 
-void CVideoTreeView::OnCollectionMenu( CWnd * pWnd, CPoint point )
+void CVideoTreeView::OnCollectionMenu( CWnd * /*pWnd*/, CPoint point )
 {
 	adv_mfc::AdvancedMenu menu;
 	menu.CreatePopupMenu();
@@ -637,7 +637,7 @@ void CVideoTreeView::OnCollectionMenu( CWnd * pWnd, CPoint point )
 	menu.TrackPopupMenuEx( TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this, nullptr );
 }
 
-void CVideoTreeView::OnRootMenu( CWnd * pWnd, CPoint point )
+void CVideoTreeView::OnRootMenu( CWnd * /*pWnd*/, CPoint point )
 {
 	adv_mfc::AdvancedMenu menu;
 	menu.CreatePopupMenu();
@@ -751,17 +751,15 @@ void CVideoTreeView::OnBnClickedViewSettings()
 		adv_mfc::AdvancedMenu * sortMenu = new adv_mfc::AdvancedMenu;
 		sortMenu->CreatePopupMenu();
 
-#define ADD_ITEM( ID ) AddItem( (UINT_PTR)(ID), new adv_mfc::AdvancedTextItem( CommandExecute::Instance().GetCommand( ID ).commandTitle, CommandExecute::Instance().GetCommand( ID ).iconID ) );
+		sortMenu->AddItem( CommandID::SortGlobalByYearDown );
+		sortMenu->AddItem( CommandID::SortGlobalByYearUp );
+		sortMenu->AddItem( CommandID::SortGlobalByRussianName );
+		sortMenu->AddItem( CommandID::SortGlobalByOriginalName );
+		sortMenu->AddItem( CommandID::SortGlobalByAddDate );
+		sortMenu->AddItem( CommandID::SortGlobalByFilenameUp );
+		sortMenu->AddItem( CommandID::SortGlobalByFilenameDown );
 
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByYearDown );
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByYearUp );
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByRussianName );
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByOriginalName );
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByAddDate );
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByFilenameUp );
-		sortMenu->ADD_ITEM( CommandID::SortGlobalByFilenameDown );
-
-		static const CommandID convertSort[] = {
+		static constexpr CommandID convertSort[] = {
 			CommandID::SortGlobalByYearDown, // SortYearDown = 0
 			CommandID::SortGlobalByYearUp, // SortYearUp
 			CommandID::SortGlobalByRussianName, // SortRu
@@ -779,21 +777,17 @@ void CVideoTreeView::OnBnClickedViewSettings()
 
 	if( doc->HasRecentlyMovies() )
 	{
-		menu.ADD_ITEM( CommandID::ShowLastViewed );
+		menu.AddItem( CommandID::ShowLastViewed );
 	}
 
-	menu.ADD_ITEM( CommandID::ShowNewFilms );
+	menu.AddItem( CommandID::ShowNewFilms );
 
-	menu.ADD_ITEM( CommandID::ShowRandomFilms );
+	menu.AddItem( CommandID::ShowRandomFilms );
 
 	menu.TrackPopupMenuEx( TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RIGHTBUTTON, btnRect.left, btnRect.top, this, nullptr );
 
 	VC_CATCH_ALL;
 }
-
-
-
-
 
 HBRUSH CVideoTreeView::OnCtlColor( CDC * pDC, CWnd * pWnd, UINT nCtlColor )
 {
@@ -807,8 +801,6 @@ HBRUSH CVideoTreeView::OnCtlColor( CDC * pDC, CWnd * pWnd, UINT nCtlColor )
 
 	return _ctrlBrush;
 }
-
-
 
 void CVideoTreeView::OnBtnKeyboard()
 {

@@ -39,10 +39,7 @@ private:
 struct PersonSearchInfo
 {
 	FilmId id = NO_FILM_ID;
-	BOOL directLoad = FALSE;
 };
-
-PersonSearchInfo GetPersonId( FilmId personId, std::vector<FilmId> * allFilms );
 
 EntryHandle AddPersonEntry( CVideoCatDoc & doc, CollectionDB & cdb, const EntryHandle & parentHandle );
 

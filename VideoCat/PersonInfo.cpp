@@ -42,7 +42,7 @@ namespace Traverse
 }
 
 
-PersonSearchInfo GetPersonId( FilmId personId, std::vector<FilmId>* allFilms )
+INT_PTR GetPersonId( FilmId personId, std::vector<FilmId>* allFilms, PersonSearchInfo& searchInfo )
 {
 	CAddPerson dlg;
 	dlg._personId = personId;
@@ -55,46 +55,19 @@ PersonSearchInfo GetPersonId( FilmId personId, std::vector<FilmId>* allFilms )
 		if( allFilms )
 			*allFilms = dlg._filmList;
 
-		return PersonSearchInfo();
+		return IDCANCEL;
 	}
 
-	if( dlg._personId == NO_FILM_ID )
-	{
-		return PersonSearchInfo();
-	}
+	searchInfo.id = (FilmId)dlg._personId;
 
-	return PersonSearchInfo( { (FilmId)dlg._personId, result == IDOK ? FALSE : TRUE } );
+	return IDOK;
 }
 
 EntryHandle AddPersonEntry( CVideoCatDoc & doc, CollectionDB & cdb, const EntryHandle & parentHandle )
 {
-	const PersonSearchInfo personId = GetPersonId( NO_FILM_ID, nullptr );
-	if( personId.id == NO_FILM_ID )
+	PersonSearchInfo personId;
+	if( IDCANCEL == GetPersonId( NO_FILM_ID, nullptr, personId ) )
 		return EntryHandle::EMPTY;
-
-	Traverse::FindPesonById fpbi;
-	fpbi.personId = personId.id;
-
-	cdb.TraverseAll( parentHandle, &fpbi );
-
-	if( !fpbi.handles.empty() )
-	{
-		std::wstring personName;
-		Entry * entry = cdb.FindEntry( fpbi.handles[0] );
-		if( entry )
-		{
-			personName = entry->title + L" / " + entry->titleAlt;
-		}
-
-		CString message;
-		message.Format( L"В папке уже есть такая персона:\r\n%s\r\n\r\nВсё равно продолжить добавление?", personName.c_str() );
-
-		if( IDNO == AfxMessageBox( message, MB_YESNO | MB_ICONQUESTION ) )
-			return EntryHandle::EMPTY;
-	}
-
-	CWaitCursor waiting;
-
 
 	Entry * parentEntry = cdb.FindEntry( parentHandle );
 	if( !parentEntry )
@@ -103,17 +76,12 @@ EntryHandle AddPersonEntry( CVideoCatDoc & doc, CollectionDB & cdb, const EntryH
 	PersonInfo personInfo;
 	Entry newPerson;
 
-	if( personId.directLoad )
-	{
-		Kinopoisk::DownloadPersonInfoDirect( personId.id, personInfo.allFilms, newPerson );
-	}
-	else
-	{
-		Kinopoisk::DownloadPersonInfo( personId.id, personInfo.allFilms, newPerson );
-	}
+	Kinopoisk::DownloadPersonInfoDirect( personId.id, personInfo.allFilms, newPerson );
+
+	CWaitCursor waiting;
 
 	// Не удалось получить информацию о персоне
-	if( newPerson.filmId != personId.id )
+	if( newPerson.filmId == NO_FILM_ID )
 		return EntryHandle::EMPTY;
 
 	if( newPerson.title.empty() && newPerson.titleAlt.empty() )
@@ -127,9 +95,33 @@ EntryHandle AddPersonEntry( CVideoCatDoc & doc, CollectionDB & cdb, const EntryH
 	Set( newPerson.flags, EntryTypes::IsFolder );
 	newPerson.thisEntry.type = EntryHandle::IS_PERSON;
 	newPerson.thisEntry.hash = cdb.GetNextVirtualIndex();
-	newPerson.urlLink = ResFormat( L"https://www.kinopoisk.ru/name/%u/", personId.id );
+	newPerson.urlLink = ResFormat( L"https://www.kinopoisk.ru/name/%u/", newPerson.filmId );
 
 	personInfo.thisEntry = newPerson.thisEntry;
+
+	{
+		Traverse::FindPesonById fpbi;
+		fpbi.personId = newPerson.filmId;
+
+		cdb.TraverseAll( parentHandle, &fpbi );
+
+		if( !fpbi.handles.empty() )
+		{
+			std::wstring personName;
+			Entry* entry = cdb.FindEntry( fpbi.handles[0] );
+			if( entry )
+			{
+				personName = entry->title + L" / " + entry->titleAlt;
+			}
+
+			CString message;
+			message.Format( L"В папке уже есть такая персона:\r\n%s\r\n\r\nВсё равно продолжить добавление?", personName.c_str() );
+
+			if( IDNO == AfxMessageBox( message, MB_YESNO | MB_ICONQUESTION ) )
+				return EntryHandle::EMPTY;
+		}
+	}
+
 
 	// загружаем постер для персоны
 	{
@@ -171,8 +163,8 @@ bool UpdatePersonEntry( CollectionDB & cdb, const EntryHandle & personHandle )
 	if( !personEntry )
 		return false;
 
-	const PersonSearchInfo personId = GetPersonId( personEntry->filmId, &personInfo->allFilms );
-	if( personId.id == NO_FILM_ID )
+	PersonSearchInfo personId;
+	if( IDCANCEL == GetPersonId( personEntry->filmId, &personInfo->allFilms, personId ) )
 	{
 		cdb.UpdatePersons();
 		return true;
@@ -183,14 +175,7 @@ bool UpdatePersonEntry( CollectionDB & cdb, const EntryHandle & personHandle )
 	PersonInfo updateInfo;
 	Entry updatePerson;
 
-	if( personId.directLoad )
-	{
-		Kinopoisk::DownloadPersonInfoDirect( personId.id, updateInfo.allFilms, updatePerson );
-	}
-	else
-	{
-		Kinopoisk::DownloadPersonInfo( personId.id, updateInfo.allFilms, updatePerson );
-	}
+	Kinopoisk::DownloadPersonInfoDirect( personId.id, updateInfo.allFilms, updatePerson );
 
 	if( updatePerson.filmId != personEntry->filmId )
 		return false;

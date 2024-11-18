@@ -70,8 +70,6 @@ CVideoCatDoc::CVideoCatDoc()
 	, _predicate(nullptr)
 {
 	std::ios_base::sync_with_stdio( true );
-
-	SetSortPredicate( sort_predicates::SortDefault );
 }
 
 CVideoCatDoc::~CVideoCatDoc()
@@ -576,6 +574,8 @@ BOOL CVideoCatDoc::OnNewDocument()
 
 	LoadCollectionList();
 	ReloadCollection( _lastUsedCollection );
+
+	SetSortPredicate( sort_predicates::SortDefault );
 
 	return TRUE;
 

@@ -170,7 +170,8 @@ void Copy( const KinopoiskInfo & ki, Entry & entry )
 	entry.year = ki.year;
 	entry.tagline = ki.tagline;
 	entry.description = ki.description;
-	entry.rating = ki.rating;
+	if( ki.rating != 0 )
+		entry.rating = ki.rating;
 
 	entry.genres = ki.genres;
 }

@@ -15,56 +15,53 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define ADD_ITEM( ID ) AddItem( (UINT_PTR)(ID), new adv_mfc::AdvancedTextItem( CommandExecute::Instance().GetCommand( ID ).commandTitle, CommandExecute::Instance().GetCommand( ID ).iconID ) )
 
 #define ADD_SORT_MENU() AddItem( SortMenu( entry, menu.GetIconSize() ), new adv_mfc::AdvancedTextItem( ResString( IDS_SORT ), IconManager::Sorting ) )
 
-#define ADD_SEPARATOR() AddSeparator( new adv_mfc::AdvancedTextItem )
 
-
-void CreateMainMenu( adv_mfc::AdvancedMenu & menu,  CVideoCatDoc* doc )
+void CreateMainMenu( adv_mfc::AdvancedMenu& menu, CVideoCatDoc* doc )
 {
-	menu.ADD_ITEM( CommandID::ManageCollections );
+	menu.AddItem( CommandID::ManageCollections );
 
 	if( doc->Ready() )
 	{
-		menu.ADD_ITEM( CommandID::ManageRoots );
+		menu.AddItem( CommandID::ManageRoots );
 
-		menu.ADD_SEPARATOR();
+		menu.AddSeparator();
 		{
-			adv_mfc::AdvancedMenu * statistic = new adv_mfc::AdvancedMenu( menu.GetIconSize() );
+			adv_mfc::AdvancedMenu* statistic = new adv_mfc::AdvancedMenu( menu.GetIconSize() );
 			statistic->CreatePopupMenu();
-			statistic->ADD_ITEM( CommandID::SearchDuplicates );
-			statistic->ADD_SEPARATOR();
-			statistic->ADD_ITEM( CommandID::ShowGenreStatistic );
-			statistic->ADD_ITEM( CommandID::ShowYearStatistic );
+			statistic->AddItem( CommandID::SearchDuplicates );
+			statistic->AddSeparator();
+			statistic->AddItem( CommandID::ShowGenreStatistic );
+			statistic->AddItem( CommandID::ShowYearStatistic );
 
 			menu.AddItem( statistic, new adv_mfc::AdvancedTextItem( ResString( IDS_STATISTICS ), IconManager::Statistics ) );
 		}
 	}
 
-	menu.ADD_SEPARATOR();
+	menu.AddSeparator();
 
-	menu.ADD_ITEM( CommandID::ProgramSettings );	
+	menu.AddItem( CommandID::ProgramSettings );
 
-	menu.ADD_ITEM( CommandID::OpenForum );
-	menu.ADD_ITEM( CommandID::OpenDonates );
-	menu.ADD_ITEM( CommandID::AboutVideocat );
+	menu.AddItem( CommandID::OpenForum );
+	menu.AddItem( CommandID::OpenDonates );
+	menu.AddItem( CommandID::AboutVideocat );
 }
 
-adv_mfc::AdvancedMenu * SortMenu( const Entry & entry, int iconSize )
+adv_mfc::AdvancedMenu* SortMenu( const Entry& entry, int iconSize )
 {
-	adv_mfc::AdvancedMenu * sortMenu = new adv_mfc::AdvancedMenu( iconSize );
+	adv_mfc::AdvancedMenu* sortMenu = new adv_mfc::AdvancedMenu( iconSize );
 	sortMenu->CreatePopupMenu();
 
-	sortMenu->ADD_ITEM( CommandID::SortByDefault );
-	sortMenu->ADD_ITEM( CommandID::SortByYearDown );
-	sortMenu->ADD_ITEM( CommandID::SortByYearUp );
-	sortMenu->ADD_ITEM( CommandID::SortByRussianName );
-	sortMenu->ADD_ITEM( CommandID::SortByOriginalName );
-	sortMenu->ADD_ITEM( CommandID::SortByAddDate );
-	sortMenu->ADD_ITEM( CommandID::SortByFilenameUp );
-	sortMenu->ADD_ITEM( CommandID::SortByFilenameDown );
+	sortMenu->AddItem( CommandID::SortByDefault );
+	sortMenu->AddItem( CommandID::SortByYearDown );
+	sortMenu->AddItem( CommandID::SortByYearUp );
+	sortMenu->AddItem( CommandID::SortByRussianName );
+	sortMenu->AddItem( CommandID::SortByOriginalName );
+	sortMenu->AddItem( CommandID::SortByAddDate );
+	sortMenu->AddItem( CommandID::SortByFilenameUp );
+	sortMenu->AddItem( CommandID::SortByFilenameDown );
 
 	static const CommandID convertSort[] = {
 		CommandID::SortByYearDown, // SortYearDown = 0
@@ -83,12 +80,12 @@ adv_mfc::AdvancedMenu * SortMenu( const Entry & entry, int iconSize )
 }
 
 
-void CreateFolderMenu( adv_mfc::AdvancedMenu & menu, const Entry & entry, bool extendedMenu )
+void CreateFolderMenu( adv_mfc::AdvancedMenu& menu, const Entry& entry, bool extendedMenu )
 {
 	if( entry.thisEntry.IsRoot() )
 	{
-		menu.ADD_ITEM( CommandID::ManageRoots );
-		menu.ADD_SEPARATOR();
+		menu.AddItem( CommandID::ManageRoots );
+		menu.AddSeparator();
 	}
 
 	if( extendedMenu )
@@ -96,142 +93,145 @@ void CreateFolderMenu( adv_mfc::AdvancedMenu & menu, const Entry & entry, bool e
 		// синхронизация и прочее доступно только для реальной папки, иначе синхронизировать не с чем
 		if( entry.thisEntry.IsReal() )
 		{
-			menu.ADD_ITEM( CommandID::SynchronizeFolder );
-			menu.ADD_ITEM( CommandID::AutoSetFilmInfo );
+			menu.AddItem( CommandID::SynchronizeFolder );
+			menu.AddItem( CommandID::AutoSetFilmInfo );
 
 			if( entry.IsTV() )
 			{
-				menu.ADD_ITEM( CommandID::AutoFillSeries );
+				menu.AddItem( CommandID::AutoFillSeries );
 			}
 
-			menu.ADD_ITEM( CommandID::GenerateThumbnails );
-			menu.ADD_ITEM( CommandID::CreatePosterFromScreenshot );
-			menu.ADD_ITEM( CommandID::EditTechInfo );
-			menu.ADD_SEPARATOR();
-			menu.ADD_ITEM( CommandID::CopyInfoFromFolder );
-			menu.ADD_SEPARATOR();
+			menu.AddItem( CommandID::GenerateThumbnails );
+			menu.AddItem( CommandID::CreatePosterFromScreenshot );
+			menu.AddItem( CommandID::EditTechInfo );
+			menu.AddSeparator();
+			menu.AddItem( CommandID::CopyInfoFromFolder );
+			menu.AddSeparator();
 
 			menu.ADD_SORT_MENU();
-			menu.ADD_SEPARATOR();
+			menu.AddSeparator();
 
-			menu.ADD_ITEM( CommandID::RenameFiles );
-			menu.ADD_ITEM( CommandID::EraseFilmsInfo );
+			menu.AddItem( CommandID::RenameFiles );
+			menu.AddItem( CommandID::EraseFilmsInfo );
 		}
 		else if( entry.thisEntry.IsVirtual() )
 		{
-			menu.ADD_ITEM( CommandID::AddVirtualFolder );
-			menu.ADD_ITEM( CommandID::AddVirtualFilm );
-			menu.ADD_ITEM( CommandID::AddVirtualPerson );
-			
+			menu.AddItem( CommandID::AddVirtualFolder );
+			menu.AddItem( CommandID::AddVirtualFilm );
+			menu.AddItem( CommandID::AddVirtualPerson );
+
 			if( !entry.thisEntry.IsRoot() )
 			{
-				menu.ADD_SEPARATOR();
-				menu.ADD_ITEM( CommandID::DeleteVirtualFolder );
+				menu.AddSeparator();
+				menu.AddItem( CommandID::DeleteVirtualFolder );
 			}
-			menu.ADD_SEPARATOR();
+			menu.AddSeparator();
 
 			menu.ADD_SORT_MENU();
 		}
 		else if( entry.thisEntry.IsPerson() )
 		{
-			menu.ADD_ITEM( CommandID::UpdateVirtualPerson );
-			menu.ADD_ITEM( CommandID::DeleteVirtualPerson );
-			menu.ADD_SEPARATOR();
+			menu.AddItem( CommandID::UpdateVirtualPerson );
+			menu.AddItem( CommandID::DeleteVirtualPerson );
+			menu.AddSeparator();
 
 			menu.ADD_SORT_MENU();
 		}
 	}
 	else
 	{
-		menu.ADD_ITEM( CommandID::EditSingleEntry );
+		menu.AddItem( CommandID::EditSingleEntry );
 
-		menu.ADD_SEPARATOR();
+		menu.AddSeparator();
 
-		menu.ADD_SEPARATOR();
+		menu.AddSeparator();
 		if( entry.IsPrivate() )
-			menu.ADD_ITEM( CommandID::PrivateUnlockFolder );
+			menu.AddItem( CommandID::PrivateUnlockFolder );
 		else
-			menu.ADD_ITEM( CommandID::PrivateLockFolder );
+			menu.AddItem( CommandID::PrivateLockFolder );
 
 		if( entry.thisEntry.IsReal() )
 		{
-			menu.ADD_SEPARATOR();
+			menu.AddSeparator();
 
 			// получить техническую информацию можно только для реального файла (файлов в папке)
-			menu.ADD_ITEM( CommandID::EditTechInfo );
-			menu.ADD_ITEM( CommandID::GenerateThumbnails );
-			menu.ADD_SEPARATOR();
+			menu.AddItem( CommandID::EditTechInfo );
+			menu.AddItem( CommandID::GenerateThumbnails );
+			menu.AddSeparator();
 
 			menu.ADD_SORT_MENU();
-			menu.ADD_SEPARATOR();
+			menu.AddSeparator();
 
-			menu.ADD_ITEM( CommandID::RenameFiles );
+			menu.AddItem( CommandID::RenameFiles );
 		}
 		else if( entry.thisEntry.IsVirtual() )
 		{
-			menu.ADD_SEPARATOR();
-			menu.ADD_ITEM( CommandID::AddVirtualFilm );
-			menu.ADD_SEPARATOR();
+			menu.AddSeparator();
+			menu.AddItem( CommandID::AddVirtualFilm );
+			menu.AddSeparator();
 
 			menu.ADD_SORT_MENU();
 		}
 		else if( entry.thisEntry.IsPerson() )
 		{
-			menu.ADD_SEPARATOR();
-			menu.ADD_ITEM( CommandID::UpdateVirtualPerson );
-			menu.ADD_SEPARATOR();
+			menu.AddSeparator();
+			menu.AddItem( CommandID::UpdateVirtualPerson );
+			menu.AddSeparator();
 
 			menu.ADD_SORT_MENU();
 		}
 	}
 }
 
-void CreateFileMenu( adv_mfc::AdvancedMenu & menu, const Entry & entry )
+void CreateFileMenu( adv_mfc::AdvancedMenu& menu, const Entry& entry )
 {
-	menu.ADD_ITEM( CommandID::OpenEntry );
+	menu.AddItem( CommandID::OpenEntry );
 
-	menu.ADD_ITEM( CommandID::EditSingleEntry );
-	menu.ADD_SEPARATOR();
+	menu.AddItem( CommandID::EditSingleEntry );
+	menu.AddSeparator();
 
-	menu.ADD_ITEM( CommandID::OpenEntryURL );
-	menu.ADD_ITEM( CommandID::OpenYoutube );
+	menu.AddItem( CommandID::OpenEntryURL );
+	menu.AddItem( CommandID::OpenYoutube );
 
 	if( entry.thisEntry.IsReal() )
 	{
 		// получить техническую информацию можно только для реального файла (файлов в папке)
-		menu.ADD_ITEM( CommandID::EditTechInfo );
+		menu.AddItem( CommandID::EditTechInfo );
 
-		menu.ADD_ITEM( CommandID::GenerateThumbnails );
-		menu.ADD_SEPARATOR();
-		menu.ADD_ITEM( CommandID::RenameFile );
+		menu.AddItem( CommandID::GenerateThumbnails );
+		menu.AddSeparator();
+		menu.AddItem( CommandID::RenameFile );
 	}
 	else if( entry.thisEntry.IsVirtual() )
 	{
-		menu.ADD_SEPARATOR();
-		menu.ADD_ITEM( CommandID::DeleteVirtualFilm );
+		menu.AddSeparator();
+		menu.AddItem( CommandID::DeleteVirtualFilm );
 	}
 
 	menu.SetDefaultItem( (UINT)CommandID::OpenEntry );
 }
 
-void CreatePersonMenu( adv_mfc::AdvancedMenu & menu, const Entry & entry )
+void CreatePersonMenu( adv_mfc::AdvancedMenu& menu, const Entry& entry )
 {
-	menu.ADD_ITEM( CommandID::AddVirtualPerson );
+	menu.AddItem( CommandID::AddVirtualPerson );
 
 	if( entry.filmId != NO_FILM_ID )
 	{
-		menu.ADD_ITEM( CommandID::UpdateVirtualPerson );
-		menu.ADD_ITEM( CommandID::DeleteVirtualPerson );
+		menu.AddItem( CommandID::UpdateVirtualPerson );
+		menu.AddItem( CommandID::DeleteVirtualPerson );
 	}
 }
 
-void CreateImportExportMenu( CMenu & menu )
+void CreateImportExportMenu( CMenu& menu )
 {
-#define ADD_ITEM_M( ID ) AppendMenu( MF_STRING, (UINT_PTR)(ID), CommandExecute::Instance().GetCommand( ID ).commandTitle )
+	constexpr auto ADD_ITEM_M = []( CMenu& menu, CommandID ID )
+	{
+		menu.AppendMenu( MF_STRING, (UINT_PTR)(ID), CommandExecute::Instance().GetCommand( ID ).commandTitle );
+	};
 
-	menu.ADD_ITEM_M( CommandID::ExportToAndroid );
+	ADD_ITEM_M( menu, CommandID::ExportToAndroid );
 	menu.AppendMenu( MF_SEPARATOR, 0, L"" );
-	menu.ADD_ITEM_M( CommandID::ExportToCSV );
+	ADD_ITEM_M( menu, CommandID::ExportToCSV );
 	menu.AppendMenu( MF_SEPARATOR, 0, L"" );
-	menu.ADD_ITEM_M( CommandID::ImportFromArchivid );
+	ADD_ITEM_M( menu, CommandID::ImportFromArchivid );
 }

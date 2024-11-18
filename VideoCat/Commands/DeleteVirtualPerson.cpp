@@ -18,11 +18,11 @@ void DeleteVirtualPerson( CommandInfo * info )
 	if( !doc )
 		return;
 
-	Entry * entry = info->entry;
+	const Entry * entry = info->entry;
 	if( !entry )
 		return;
 
-	EntryHandle entryHandle = entry->thisEntry;
+	const EntryHandle entryHandle = entry->thisEntry;
 	if( !entryHandle.IsPerson() )
 		return;
 
@@ -33,7 +33,7 @@ void DeleteVirtualPerson( CommandInfo * info )
 	if( IDYES != AfxMessageBox( ResFormat( IDS_CONFIRM_DELETE_PERSON, entry->title.c_str() ), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST ) )
 		return;
 
-	EntryHandle parentHandle = entry->parentEntry;
+	const EntryHandle parentHandle = entry->parentEntry;
 
 	doc->DeletePerson( entryHandle );
 

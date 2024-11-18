@@ -45,7 +45,7 @@ public:
 	void Destroy();
 
 public:
-	void ReadProxyList();
+	//void ReadProxyList();
 
 	void LoadFileExtensions();
 	void SaveFileExtensions();
@@ -124,7 +124,7 @@ public:
 		return alwaysShowRating;
 	}
 
-	CStringA GetProxy() const;
+	//CStringA GetProxy() const;
 
 	void SetHideSecondTitle( BOOL onoff );
 
@@ -158,17 +158,17 @@ public:
 	int numRandomFilms;
 	BOOL autoplayRandomFilm;
 
-	ProxyType proxyType; // способ использования прокси-сервера
-	void SetProxyType( int type );
+	//ProxyType proxyType; // способ использования прокси-сервера
+	//void SetProxyType( int type );
 
-	DWORD proxyIP;
-	void SetProxyIP( DWORD ip );
+	//DWORD proxyIP;
+	//void SetProxyIP( DWORD ip );
 
-	short proxyPort;
-	void SetProxyPort( short port );
+	//short proxyPort;
+	//void SetProxyPort( short port );
 
-	unsigned proxyTimeout;
-	void SetTimeout( unsigned timeout );
+	//unsigned proxyTimeout;
+	//void SetTimeout( unsigned timeout );
 
 	ViewStyle * theme;
 	int viewScale;
@@ -184,7 +184,7 @@ private:
 	int _viewType; // способ отображения фильмов: плиткой или списком
 	
 
-	std::vector<CStringA> _proxyList; // список прокси-серверов
+	//std::vector<CStringA> _proxyList; // список прокси-серверов
 };
 
 

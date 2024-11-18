@@ -21,7 +21,6 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	DECLARE_MESSAGE_MAP()
-	afx_msg void OnOK2();
 	afx_msg void OnAddPerson();
 	afx_msg void OnRemoveSelected();
 

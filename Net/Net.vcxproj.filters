@@ -21,39 +21,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="curl\curl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\curlbuild.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\curlrules.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\curlver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\easy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\mprintf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\multi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\stdcheaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\typecheck-gcc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="curl\urlapi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>

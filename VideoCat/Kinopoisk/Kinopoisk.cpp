@@ -14,6 +14,7 @@
 #include "../CopyWebPageDlg.h"
 #include "../ResString.h"
 #include "json/json.h"
+#include "LoadKinopoiskPage.h"
 
 Kinopoisk & GetKinopoisk()
 {
@@ -519,9 +520,12 @@ CString ReadName( const std::wstring & unicode, size_t pos )
 	return result.Trim();
 }
 
-void ParsePersonData( const std::string & htmlFile, std::vector<FilmId> & allFilms, Entry & entry )
+void ParsePersonData( const char* startPtr, const char* endPtr, std::vector<FilmId> & allFilms, Entry & entry )
 {
 	allFilms.clear();
+
+	const std::string_view htmlFile( startPtr );
+
 
 	const auto errorText = L"Не удалось получить информацию о персоне";
 	 
@@ -565,7 +569,23 @@ void ParsePersonData( const std::string & htmlFile, std::vector<FilmId> & allFil
 			Json::CharReaderBuilder rb;
 			std::unique_ptr<Json::CharReader> reader( rb.newCharReader() );
 			Json::String err;
-			reader->parse( htmlFile.c_str() + pos, htmlFile.c_str() + htmlFile.size(), &root, &err );
+			reader->parse( htmlFile.data() + pos, htmlFile.data() + htmlFile.size(), &root, &err );
+		}
+
+		if( root["url"].isString() )
+		{
+			const std::string url = root["url"].asString();
+			// в конце url находится идентификатор фильма
+			auto idPos = url.length() - 1;
+			if( !isdigit( url[idPos] ) )
+				--idPos;
+			while( isdigit( url[idPos] ) )
+			{
+				--idPos;
+			}
+			++idPos;
+
+			entry.filmId = std::atoi( url.c_str() + idPos );
 		}
 
 		if( root["name"].isString() )
@@ -579,6 +599,38 @@ void ParsePersonData( const std::string & htmlFile, std::vector<FilmId> & allFil
 		}
 	}
 
+	// base-movie-main-info_link
+
+	size_t pos = 0;
+	while( true )
+	{
+		pos = htmlFile.find( "base-movie-main-info_link", pos );
+		if( pos == std::string_view::npos )
+			break;
+
+		const char* ptr = htmlFile.data() +  pos;
+
+		while( *ptr != '<' )
+			--ptr;
+		while( *ptr != '"' )
+			++ptr;
+		++ptr;
+
+		while( *ptr != '"' )
+			++ptr;
+		--ptr;
+		--ptr;
+		while( isdigit(*ptr) )
+			--ptr;
+		++ptr;
+
+		const int filmID = atoi( ptr);
+		allFilms.push_back( filmID );
+
+		pos += 50;
+	}
+
+	/*
 	{
 		size_t pos = htmlFile.find( "props" );
 		if( pos == htmlFile.npos )
@@ -595,7 +647,7 @@ void ParsePersonData( const std::string & htmlFile, std::vector<FilmId> & allFil
 			Json::CharReaderBuilder rb;
 			std::unique_ptr<Json::CharReader> reader( rb.newCharReader() );
 			Json::String err;
-			reader->parse( htmlFile.c_str() + pos, htmlFile.c_str() + htmlFile.size(), &root, &err );
+			reader->parse( htmlFile.data() + pos, htmlFile.data() + htmlFile.size(), &root, &err );
 		}
 
 		Json::Value propsObject = root["props"];
@@ -626,119 +678,26 @@ void ParsePersonData( const std::string & htmlFile, std::vector<FilmId> & allFil
 			}
 		}
 	}
-}
-
-void Kinopoisk::DownloadPersonInfo( KinopoiskId id, std::vector<FilmId> & allFilms, Entry & entry )
-{
-#ifndef KP_UPDATER
-
-	VC_TRY;
-
-	Curl::Global curlGuard;
-
-	const CString personUrl = ResFormat( L"http://webcache.googleusercontent.com/search?q=cache:https://www.kinopoisk.ru/name/%u/", id );
-	
-	Curl curl( GetGlobal().proxyTimeout );
-	CurlBuffer chunk;
-
-	CStringA curlQuery( personUrl );
-
-	VerifyCurl( curl_easy_setopt( curl, CURLOPT_URL, curlQuery.GetString() ) );
-	VerifyCurl( curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, CurlBuffer::WriteMemoryCallback ) );
-	VerifyCurl( curl_easy_setopt( curl, CURLOPT_WRITEDATA, &chunk ) );
-
-	curl.InitHeaders();
-	curl.InitProxy( GetGlobal().proxyType, GetGlobal().GetProxy() );
-
-	const CURLcode resCode = curl_easy_perform( curl );
-	if( CURLE_OK != resCode )
-		return;
-
-	chunk.TerminateBuffer();
-
-	//std::wstring unicode;
-
-	//{
-	//	char *ct = nullptr;
-	//	curl_easy_getinfo( curl, CURLINFO_CONTENT_TYPE, &ct );
-	//	::CharLowerBuffA( ct, strlen( ct ) );
-
-	//	const bool isWindows1251 = ::strstr( ct, "windows-1251" ) != nullptr;
-
-	//	const char * html = (const char *)chunk.GetData();
-	//	if( !html )
-	//		return;
-
-	//	const size_t size = chunk.GetSize();
-	//	unicode.resize( size * 4 );
-
-	//	const int count = MultiByteToWideChar( isWindows1251 ? 1251 : CP_UTF8, 0, html, size + 1, std::data(unicode), unicode.size() );
-	//	if( count <= 0 )
-	//		return;
-
-	//	unicode[count] = L'\0';
-	//}
-
-	entry.filmId = id;
-	ParsePersonData( (const char*)chunk.GetData(), allFilms, entry );
-
-	VC_CATCH( ... )
-	{
-		static bool ignore = false;
-		ShowError( L"Ошибка получения информации о человеке", ignore );
-	}
-
-#endif
+	*/
 }
 
 void Kinopoisk::DownloadPersonInfoDirect( KinopoiskId id, std::vector<FilmId> & allFilms, Entry & entry )
 {
-#ifndef KP_UPDATER
-
 	VC_TRY;
 
-	Curl::Global curlGuard;
+	const CString personUrl = (id != 0) ? ResFormat( L"https://www.kinopoisk.ru/name/%u/", id ) : CString( L"https://www.kinopoisk.ru/" );
 
-	const CString personUrl = ResFormat( L"http://webcache.googleusercontent.com/search?q=cache:https://www.kinopoisk.ru/name/%u/", id );
-	
-	CopyWebPageDlg copyDlg;
-	copyDlg.startPageUrl = personUrl;
-
-	if( copyDlg.DoModal() != IDOK )
+	::std::vector<char> utf8;
+	LoadPageData( personUrl, utf8 );
+	if( utf8.empty() )
 		return;
-
-	if( copyDlg.pageData.IsEmpty() )
-		return;
-
-	std::wstring unicode = copyDlg.pageData.GetString();
-	std::string utf8;
-	utf8.resize( unicode.size() * 4 );
-
-	const int count = WideCharToMultiByte( CP_UTF8, 0, unicode.c_str(), unicode.length(), utf8.data(), utf8.size(), nullptr, nullptr );
-	utf8[count]= '\0';
-
-		//{
-	//	const bool isWindows1251 = copyDlg.pageCharset.CompareNoCase( "windows-1251" ) == 0;
-
-	//	const int length = copyDlg.pageData.GetLength();
-
-	//	unicode.resize( length * 4 );
-
-	//	const int count = MultiByteToWideChar( isWindows1251 ? 1251 : CP_UTF8, 0, copyDlg.pageData, length, &unicode[0], unicode.size() );
-	//	if( count <= 0 )
-	//		return;
-
-	//	unicode[count] = L'\0';
-	//}
 
 	entry.filmId = id;
-	ParsePersonData( utf8, allFilms, entry );
+	ParsePersonData( utf8.data(), utf8.data() + utf8.size(), allFilms, entry );
 
 	VC_CATCH( ... )
 	{
 		static bool ignore = false;
 		ShowError( L"Ошибка получения информации о человеке", ignore );	
 	}
-
-#endif
 }

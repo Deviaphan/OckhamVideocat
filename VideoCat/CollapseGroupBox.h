@@ -29,9 +29,9 @@ SS_LEFT
 SS_CENTER
 SS_RIGHT
 */
-#define UM_MOUSEENTRY WM_USER + 0x100
-#define UM_MOUSELEAVE WM_USER + 0x101
-#define UM_UPDATEFORM WM_USER + 0x102
+constexpr DWORD UM_MOUSEENTRY = WM_USER + 0x100;
+constexpr DWORD UM_MOUSELEAVE = WM_USER + 0x101;
+constexpr DWORD UM_UPDATEFORM = WM_USER + 0x102;
 
 class CollapseGroupBox : public CButton
 {

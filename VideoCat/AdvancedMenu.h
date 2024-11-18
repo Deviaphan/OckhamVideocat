@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <vector>
-
+#include "Commands/CommandID.h"
 #include "IconManager.h"
 
 namespace adv_mfc
@@ -23,8 +23,8 @@ protected:
 	/// Конструктор
 	explicit IAdvancedMenuItem();
 private:
-	IAdvancedMenuItem( const IAdvancedMenuItem & );
-	const IAdvancedMenuItem & operator = ( const IAdvancedMenuItem & );
+	IAdvancedMenuItem( const IAdvancedMenuItem & ) = delete;
+	const IAdvancedMenuItem & operator = ( const IAdvancedMenuItem & ) = delete;
 protected:
 	/// Деструктор
 	virtual ~IAdvancedMenuItem();
@@ -60,8 +60,8 @@ public:
 	explicit AdvancedTextItem( const CString & text = CString(), IconID iconID = 0 );
 
 private:
-	AdvancedTextItem( const AdvancedTextItem & );
-	const AdvancedTextItem & operator = ( const AdvancedTextItem & );
+	AdvancedTextItem( const AdvancedTextItem & ) = delete;
+	const AdvancedTextItem & operator = ( const AdvancedTextItem & ) = delete;
 public:
 	~AdvancedTextItem() override;
 
@@ -90,7 +90,9 @@ public:
 
 	void AddItem( UINT_PTR id, IAdvancedMenuItem * item, UINT flags = MF_ENABLED );
 	void AddItem( AdvancedMenu * popup, IAdvancedMenuItem * item, UINT flags = MF_POPUP );
-	void AddSeparator( IAdvancedMenuItem * item );
+	void AddItem( CommandID id );
+
+	void AddSeparator( IAdvancedMenuItem * item = new AdvancedTextItem );
 
 	BOOL ImportMenu( CMenu & menu, BOOL importOwnerDraw = TRUE );
 

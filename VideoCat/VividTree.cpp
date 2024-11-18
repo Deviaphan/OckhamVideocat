@@ -72,7 +72,7 @@ END_MESSAGE_MAP()
 
 BOOL VividTree::OnEraseBkgnd( CDC* )
 {
-	return TRUE;
+	return FALSE;
 }
 
 void VividTree::OnPaint()

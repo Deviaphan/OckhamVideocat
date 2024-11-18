@@ -294,7 +294,9 @@ void CFlatSplitterWnd::RecalcLayout()
 
 	// move and resize all the windows at once!
 	if( layout.hDWP == NULL || !::EndDeferWindowPos( layout.hDWP ) )
+	{
 		TRACE0( "Warning: DeferWindowPos failed - low system resources.\n" );
+	}
 
 	// invalidate all the splitter bars (with NULL pDC)
 	DrawAllSplitBars( NULL, rectInside.right, rectInside.bottom );

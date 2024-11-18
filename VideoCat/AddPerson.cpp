@@ -31,7 +31,6 @@ void CAddPerson::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CAddPerson, CDialog)
-	ON_BN_CLICKED( IDOK2, &CAddPerson::OnOK2 )
 	ON_BN_CLICKED( IDC_ADD, &CAddPerson::OnAddPerson )
 	ON_BN_CLICKED( IDC_REMOVE, &CAddPerson::OnRemoveSelected )
 END_MESSAGE_MAP()
@@ -54,13 +53,6 @@ void CAddPerson::UpdateList()
 	{
 		_filmListCtrl.AddString( std::to_wstring( i ).c_str() );
 	}
-}
-
-void CAddPerson::OnOK2()
-{
-	UpdateData();
-
-	EndDialog( IDYES );
 }
 
 void CAddPerson::OnAddPerson()

@@ -96,7 +96,7 @@ void ManageRootDirDlg::UpdateRootList()
 		return;
 
 	const int numRoots = collection->GetNumRoots();
-	for( unsigned index = 0; index < numRoots; ++index )
+	for( int index = 0; index < numRoots; ++index )
 	{
 		EntryHandle rootHandle = collection->GetRoot( index );
 		Entry * root = collection->FindEntry( rootHandle );

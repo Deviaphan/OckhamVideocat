@@ -49,36 +49,36 @@ BOOL CProxySettings::OnInitDialog()
 
 void CProxySettings::OnCheckIp()
 {
-	CWaitCursor wait;
+	//CWaitCursor wait;
 
-	UpdateData();
+	//UpdateData();
 
-	if( (ProxyType)proxyType == ProxyType::UseProxy )
-		GetGlobal().ReadProxyList();
+	//if( (ProxyType)proxyType == ProxyType::UseProxy )
+	//	GetGlobal().ReadProxyList();
 
-	CStringA * torIP = nullptr;
-	CStringA * pIP = nullptr;
-	CStringA temp;
+	//CStringA * torIP = nullptr;
+	//CStringA * pIP = nullptr;
+	//CStringA temp;
 
-	switch( (ProxyType)proxyType )
-	{
-		case ProxyType::NoProxy:
-			break;
-		
-		case ProxyType::UseTor:
-		{
-			temp = GetGlobal().GetProxy();
-			torIP = &temp;
-			break;
-		}
+	//switch( (ProxyType)proxyType )
+	//{
+	//	case ProxyType::NoProxy:
+	//		break;
+	//	
+	//	case ProxyType::UseTor:
+	//	{
+	//		temp = GetGlobal().GetProxy();
+	//		torIP = &temp;
+	//		break;
+	//	}
 
-		case ProxyType::UseProxy:
-		{
-			temp = GetGlobal().GetProxy();
-			pIP = &temp;
-			break;
-		}
-	}
+	//	case ProxyType::UseProxy:
+	//	{
+	//		temp = GetGlobal().GetProxy();
+	//		pIP = &temp;
+	//		break;
+	//	}
+	//}
 
-	TestIP( timeout, torIP, pIP );
+	//TestIP( timeout, torIP, pIP );
 }

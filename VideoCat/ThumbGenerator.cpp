@@ -16,6 +16,7 @@
 ThumbsMode::Enum GetThumbsGenerationMode( const CString & title, int & units, BOOL & autoselect )
 {
 	ThumbnailSettingsDlg dlg;
+	dlg.SetWindowText( title );
 
 	dlg.createMode = autoselect ? 1 : 0;
 
@@ -120,7 +121,7 @@ void GenerateThumbnails( CollectionDB * cdb, const EntryHandle & root, ThumbsMod
 		return;
 
 	std::vector<char> utf8( outString.GetLength() * 4 );
-	int utf8Size = WideCharToMultiByte( CP_UTF8, 0, outString.GetString(), outString.GetLength(), std::data(utf8), utf8.size(), nullptr, nullptr );
+	int utf8Size = WideCharToMultiByte( CP_UTF8, 0, outString.GetString(), outString.GetLength(), std::data(utf8), (int)utf8.size(), nullptr, nullptr );
 	if( utf8Size >= (int)utf8.size() )
 		utf8Size = utf8.size() - 1;
 	utf8[utf8Size] = 0;

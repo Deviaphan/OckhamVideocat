@@ -25,7 +25,6 @@ public:
 	const KinopoiskInfo & SearchInfo( KinopoiskId id );
 
 	// получить информацию о фильмах для актёра
-	static void DownloadPersonInfo( KinopoiskId id, std::vector<FilmId> & allFilms, Entry & entry );
 	static void DownloadPersonInfoDirect( KinopoiskId id, std::vector<FilmId> & allFilms, Entry & entry );
 
 	// Открыть описание фильм на сайте cinemmate.cc

@@ -4,7 +4,7 @@
 #include "FileFormatSettings.h"
 #include "BehaviorDlg.h"
 #include "ViewStyleDlg.h"
-#include "ProxySettings.h"
+//#include "ProxySettings.h"
 #include "VideoCatDoc.h"
 #include "resource.h"
 
@@ -40,7 +40,7 @@ public:
 	CBehaviorDlg behaviorDlg;
 	CViewStyleDlg viewStyleDlg;
 	CFileFormatSettings fileFormatSettings;
-	CProxySettings proxySettings;
+	//CProxySettings proxySettings;
 
 	static int refCount;
 };
